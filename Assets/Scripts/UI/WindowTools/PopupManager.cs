@@ -8,12 +8,22 @@ public class PopupManager : MonoBehaviour
 
     private static PopupManager _instance;
     private readonly Dictionary<Type, Popup> _popupsDictionary = new();
-    private Stack<Popup> _openedPopups = new();
+    private readonly Stack<Popup> _openedPopups = new();
+
+    public static event Action<Popup> Closed;
 
     private void Awake()
     {
         _instance = this;
         DontDestroyOnLoad(this);
+        
+        SceneHandler.SceneLoaded += OnSceneLoaded;
+    }
+    
+    private void OnSceneLoaded()
+    {
+        var canvas = GetComponent<Canvas>();
+        canvas.worldCamera = Camera.main;
     }
 
     public static void Open<T>() where T : Popup
@@ -39,6 +49,7 @@ public class PopupManager : MonoBehaviour
     {
         var last = _instance._openedPopups.Pop();
         last.Close();
+        Closed?.Invoke(last);
     }
 
     public static void CloseAll()

@@ -12,7 +12,17 @@ public class GameplayPage : Page
 
     private void OnPauseButtonClicked()
     {
+        _pauseButton.gameObject.SetActive(false);
+        PopupManager.Open<PausePopup>();
+        PopupManager.Closed += OnPausePopupClosed;
+    }
+
+    private void OnPausePopupClosed(Popup popup)
+    {
+        if (popup is not PausePopup)
+            return;
         
+        _pauseButton.gameObject.SetActive(true);
     }
 
     protected override void OnCloseStart()

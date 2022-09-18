@@ -8,13 +8,23 @@ public class PageManager : MonoBehaviour
     
     private static PageManager _instance;
     private readonly Dictionary<Type, Page> _pagesDictionary = new();
-    private Stack<Page> _pageStack;
+    private readonly Stack<Page> _pageStack = new();
     private Page _curPage;
 
     private void Awake()
     {
         _instance = this;
         DontDestroyOnLoad(this);
+
+        SceneHandler.SceneLoaded += OnSceneLoaded;
+        
+        Open<SplashPage>();
+    }
+
+    private void OnSceneLoaded()
+    {
+        var canvas = GetComponent<Canvas>();
+        canvas.worldCamera = Camera.main;
     }
 
     public static void Open<T>() where T : Page
@@ -41,12 +51,20 @@ public class PageManager : MonoBehaviour
 
     public static void CloseLast()
     {
+        if (_instance._pageStack.Count == 1)
+        {
+            var closing = _instance._pageStack.Peek();
+            closing.Close();
+            return;
+        }
+
         var last = _instance._pageStack.Pop();
         last.Close();
+        
         var prev = _instance._pageStack.Peek();
+        _instance._pageStack.Push(last);
         prev.Open();
         _instance._curPage = prev;
-        _instance._pageStack.Push(last);
         _instance._pageStack.Push(prev);
     }
 }

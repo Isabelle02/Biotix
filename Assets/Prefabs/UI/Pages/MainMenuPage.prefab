@@ -605,7 +605,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 893cfd6c06394ce1bd063ded849e34df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _showPanel: {fileID: 137215351072475069}
   _playButton: {fileID: 5715625040610457956}
   _settingsButton: {fileID: 7718490168283185674}
   _ratingButton: {fileID: 2538433741144925861}
@@ -752,8 +751,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 7482667652216324306, guid: ac612bd6a88083d43a584467ad73e385, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

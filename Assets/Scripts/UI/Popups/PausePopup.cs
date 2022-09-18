@@ -29,6 +29,7 @@ public class PausePopup : Popup
     private void OnMainMenuButtonClicked()
     {
         PageManager.Open<MainMenuPage>();
+        PopupManager.CloseLast();
     }
 
     private void OnSoundCheckBoxValueChanged(bool value)

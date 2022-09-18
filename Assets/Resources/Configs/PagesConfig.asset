@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279fdd9701c8db94bb22255a5ce1b05b, type: 3}
   m_Name: PagesConfig
   m_EditorClassIdentifier: 
-  _pagePrefabs: []
+  _pagePrefabs:
+  - {fileID: 6273422062121660994, guid: 7e15280bd5f50184ca51dabc9f1b018f, type: 3}
+  - {fileID: 301744501741333304, guid: 719686fdef7996a408d8fd75a656ffc7, type: 3}
+  - {fileID: 2439205972677884300, guid: 379aae7faa44014408bad049d22e031f, type: 3}
