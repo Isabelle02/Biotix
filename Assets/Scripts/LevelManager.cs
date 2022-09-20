@@ -4,14 +4,14 @@ public class LevelManager : MonoBehaviour
 {
     private static LevelManager _instance;
 
-    private static LevelsConfig _levelsConfig;
+    public static LevelsConfig LevelsConfig { get; private set; }
 
     private void Awake()
     {
         _instance = this;
         DontDestroyOnLoad(this);
         
-        _levelsConfig = Resources.Load<LevelsConfig>("Configs/LevelsConfig");
+        LevelsConfig = Resources.Load<LevelsConfig>("Configs/LevelsConfig");
     }
 
     public static void ResetLevel()

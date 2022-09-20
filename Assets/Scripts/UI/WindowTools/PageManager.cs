@@ -27,7 +27,7 @@ public class PageManager : MonoBehaviour
         canvas.worldCamera = Camera.main;
     }
 
-    public static void Open<T>() where T : Page
+    public static void Open<T>(Page.ViewParam viewParam = null) where T : Page
     {
         if (!_instance._pagesDictionary.ContainsKey(typeof(T)))
         {
@@ -44,27 +44,16 @@ public class PageManager : MonoBehaviour
         if (_instance._curPage != null && _instance._curPage.gameObject.activeSelf)
             _instance._curPage.Close();
 
-        p.Open();
+        p.Open(viewParam);
         _instance._curPage = p;
         _instance._pageStack.Push(p);
     }
 
-    public static void CloseLast()
+    public static T Get<T>() where T : Page
     {
-        if (_instance._pageStack.Count == 1)
-        {
-            var closing = _instance._pageStack.Peek();
-            closing.Close();
-            return;
-        }
+        if (_instance._pagesDictionary[typeof(T)] is T page)
+            return page;
 
-        var last = _instance._pageStack.Pop();
-        last.Close();
-        
-        var prev = _instance._pageStack.Peek();
-        _instance._pageStack.Push(last);
-        prev.Open();
-        _instance._curPage = prev;
-        _instance._pageStack.Push(prev);
+        return default;
     }
 }

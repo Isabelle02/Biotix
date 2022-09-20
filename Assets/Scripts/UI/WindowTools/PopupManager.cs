@@ -44,6 +44,14 @@ public class PopupManager : MonoBehaviour
         p.Open();
         _instance._openedPopups.Push(p);
     }
+    
+    public static T Get<T>() where T : Popup
+    {
+        if (_instance._popupsDictionary[typeof(T)] is T popup)
+            return popup;
+
+        return default;
+    }
 
     public static void CloseLast()
     {

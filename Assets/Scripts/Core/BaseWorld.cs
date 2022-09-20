@@ -10,6 +10,7 @@ public interface IWorld
     public void AddSystem(BaseSystem system);
     public void RemoveEntity(BaseEntity entity);
     public void RemoveSystem(BaseSystem system);
+    public T GetSystem<T>();
     public void Deactivate();
 }
 
@@ -83,6 +84,14 @@ public class BaseWorld : IWorld
 
         foreach (var entity in _entities)
             system.RemoveEntity(entity.Key);
+    }
+
+    public T GetSystem<T>()
+    {
+        if (_systems[typeof(T)] is T system)
+            return system;
+
+        return default;
     }
 
     public virtual void Deactivate()

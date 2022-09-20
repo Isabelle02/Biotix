@@ -4,5 +4,6 @@ using System.Collections.Generic;
 [Serializable]
 public class LevelData
 {
-    public List<TeamData> TeamsData = new();
+    public List<PlayerData> PlayersData = new();
+    public List<AIData> AisData = new();
 }

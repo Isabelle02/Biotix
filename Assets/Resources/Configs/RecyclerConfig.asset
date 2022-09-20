@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 386aaedc159845899c2cdae313f4d764, type: 3}
   m_Name: RecyclerConfig
   m_EditorClassIdentifier: 
-  Prefabs: []
+  Prefabs:
+  - {fileID: 6224567362971830634, guid: 7db335f8a6384864e8250e25c99294e9, type: 3}

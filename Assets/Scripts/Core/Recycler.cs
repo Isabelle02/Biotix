@@ -36,6 +36,9 @@ public class Recycler<T> : Recycler where T : MonoBehaviour
     {
         obj.gameObject.SetActive(false);
         _poolObjects.Push(obj);
+        
+        if (obj is IReleasable releasable)
+            releasable.Dispose();
     }
         
     private static T CreateObject()

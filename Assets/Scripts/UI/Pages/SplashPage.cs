@@ -9,13 +9,18 @@ public class SplashPage : Page
 
     protected override void OnOpenStart(ViewParam viewParam)
     {
+        SceneHandler.SceneLoaded += OnSceneLoaded;
         _biohazardImage.SetAlpha(Constants.Transparent);
-        _biohazardImage.DoFade(Constants.Opaque, _fadingAnimDuration).OnComplete(PageManager.CloseLast);
+        _biohazardImage.DoFade(Constants.Opaque, _fadingAnimDuration).OnComplete(() => SceneHandler.Load("Main"));
+    }
+
+    private void OnSceneLoaded()
+    {
+        PageManager.Open<MainMenuPage>();
     }
 
     protected override void OnCloseStart()
     {
-        SceneHandler.Load("Main");
-        PageManager.Open<MainMenuPage>();
+        SceneHandler.SceneLoaded -= OnSceneLoaded;
     }
 }

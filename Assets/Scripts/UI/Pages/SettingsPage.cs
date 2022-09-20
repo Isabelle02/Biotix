@@ -12,7 +12,7 @@ public class SettingsPage : Page
 
     private void OnCLoseButtonClicked()
     {
-        PageManager.CloseLast();
+        PageManager.Open<MainMenuPage>();
     }
 
     protected override void OnCloseStart()
