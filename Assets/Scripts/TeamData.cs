@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public class TeamData : BaseData
 {
-    public int TeamID;
+    public int TeamId;
     public List<NodeData> NodesData = new();
     
     public override BaseEntity CreateEntity(IWorld world)

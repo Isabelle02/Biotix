@@ -13,41 +13,12 @@ MonoBehaviour:
   m_Name: LevelsConfig
   m_EditorClassIdentifier: 
   NodeView: {fileID: 4758568029750670107, guid: 7db335f8a6384864e8250e25c99294e9, type: 3}
-  NodeSprites:
+  TeamSprites:
+  - {fileID: 21300000, guid: c77bb4bf425a2b343b68e56e97756e14, type: 3}
   - {fileID: 21300000, guid: aea2bf14d45a0b842baaf1ca9e3474fa, type: 3}
-  - {fileID: 21300000, guid: cde326d840da42041af7622decf07b5e, type: 3}
   - {fileID: 21300000, guid: e1e1b6698440376478d53dc7a272ca0d, type: 3}
   - {fileID: 21300000, guid: 6f5d42c20f75b514ea035c99c2528a55, type: 3}
+  - {fileID: 21300000, guid: ae5109c5ffa2d824194dcb27f66136d4, type: 3}
+  - {fileID: 21300000, guid: 8278d5cc3d1a34b4d8cb009e4a7cc9a4, type: 3}
   LevelsData:
-  - PlayersData:
-    - TeamID: 0
-      NodesData:
-      - TeamID: 0
-        Position: {x: -5.757083, y: -3.529213, z: 0}
-        Radius: 50
-        MaxUnitCount: 0
-      - TeamID: 0
-        Position: {x: -2.786604, y: -2.7512302, z: 0}
-        Radius: 50
-        MaxUnitCount: 0
-      - TeamID: 0
-        Position: {x: -4.4132943, y: 3.5433564, z: 0}
-        Radius: 50
-        MaxUnitCount: 0
-      - TeamID: 0
-        Position: {x: -3.210958, y: 0.18388593, z: 0}
-        Radius: 50
-        MaxUnitCount: 0
-    AisData:
-    - TeamID: 1
-      NodesData:
-      - TeamID: 1
-        Position: {x: 0.67895466, y: 3.5787191, z: 0}
-        Radius: 50
-        MaxUnitCount: 0
-    - TeamID: 2
-      NodesData:
-      - TeamID: 2
-        Position: {x: 2.5885482, y: -1.195265, z: 0}
-        Radius: 50
-        MaxUnitCount: 0
+  - NodesData: []

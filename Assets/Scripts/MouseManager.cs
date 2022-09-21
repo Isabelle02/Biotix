@@ -13,8 +13,8 @@ public static class MouseManager
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         var hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity,  LayerMask.GetMask("UI"));
         if (hit.collider != null)
-            if (hit.collider.gameObject.TryGetComponent(out T node))
-                return node;
+            if (hit.collider.gameObject.TryGetComponent(out T o))
+                return o;
 
         return default;
     }

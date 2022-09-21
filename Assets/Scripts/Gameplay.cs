@@ -7,30 +7,25 @@ public class Gameplay : MonoBehaviour
     private Vector3 _mouseDownPos;
     private bool _isDragged;
 
-    private IWorld _world;
+    private NodeSystem _nodeSystem;
 
     private async void Start()
     {
         var worldData = new WorldData();
         var lvlData = LevelManager.LevelsConfig.LevelsData[0];
         
-        foreach (var t in lvlData.PlayersData)
+        foreach (var t in lvlData.NodesData)
         {
             worldData.Data.Add(t);
         }
 
-        foreach (var t in lvlData.AisData)
-        {
-            worldData.Data.Add(t);
-        }
+        var updateSystem = new UpdateSystem();
+        _nodeSystem = new NodeSystem();
 
-        var updatableSystem = new UpdatableSystem();
-        var playerSystem = new PlayerSystem();
+        WorldManager.CurrentWorld = new BaseWorld();
+        WorldManager.CurrentWorld.Activate(worldData, updateSystem, _nodeSystem);
 
-        _world = new BaseWorld();
-        _world.Activate(worldData, updatableSystem, playerSystem);
-
-        await updatableSystem.Update();
+        await updateSystem.Update();
     }
     
     private void Update()
@@ -49,22 +44,22 @@ public class Gameplay : MonoBehaviour
                 if (_isDragged) 
                 { 
                     _isDragged = false;
-                    _world.GetSystem<PlayerSystem>().SendUnits(node.NodeEntity);
+                    _nodeSystem.SendUnits(1, node.NodeEntity);
                 }
                 else
                 {
-                    if (!_world.GetSystem<PlayerSystem>().ActivateNode(node.NodeEntity))
-                        _world.GetSystem<PlayerSystem>().SendUnits(node.NodeEntity);
+                    if (!_nodeSystem.ActivateNode(1, node.NodeEntity))
+                        _nodeSystem.SendUnits(1, node.NodeEntity);
                 }
             } 
             else if (_isDragged) 
             { 
                 _isDragged = false; 
-                _world.GetSystem<PlayerSystem>().HandleSelectedNodesLines(false);
+                _nodeSystem.StopSearching(1);
             }
             else
             {
-                _world.GetSystem<PlayerSystem>().ResetSelectedNodes();
+                _nodeSystem.DeactivateNodes(1);
             }
         } 
  
@@ -73,11 +68,7 @@ public class Gameplay : MonoBehaviour
             if (_mouseDownPos != MouseManager.GetMousePosition(0)) 
             { 
                 _isDragged = true; 
-                var node = MouseManager.GetObject<NodeView>();
-                if (node != null)
-                    _world.GetSystem<PlayerSystem>().ActivateNode(node.NodeEntity);
-                
-                _world.GetSystem<PlayerSystem>().HandleSelectedNodesLines(true);
+                WorldManager.CurrentWorld.GetSystem<NodeSystem>().SearchTarget(1);
             } 
         } 
     }

@@ -3,12 +3,17 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class UpdatableSystem : BaseSystem<IUpdatable>
+public class UpdateSystem : BaseSystem<IUpdatable>
 {
     private readonly List<IUpdatable> _updatables = new();
 
     private float _passTime;
     private bool _isUpdating = true;
+
+    public void AddUpdatable(IUpdatable updatable)
+    {
+        _updatables.Add(updatable);
+    }
 
     protected override void AddActor(IUpdatable actor)
     {

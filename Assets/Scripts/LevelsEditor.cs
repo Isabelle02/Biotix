@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 
+using System;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -7,21 +8,20 @@ using UnityEngine;
 public class LevelsEditor : EditorWindow
 {
     private ReorderableList _levelsList;
-    private ReorderableList _playersList;
-    private ReorderableList _aisList;
-    private ReorderableList _teamNodesList;
+    private ReorderableList _nodesList;
 
     private Vector2 _pos;
 
     private LevelsConfig _levelsConfig;
 
-    private bool _isPlayerTeam;
+    private bool _isWindowActive;
     
     [MenuItem("Window/LevelsEditorWindow")]
     private static void Init() => GetWindow<LevelsEditor>("LevelsEditorWindow", true);
 
     private void OnEnable()
     {
+        _isWindowActive = true;
         _levelsConfig = Resources.Load<LevelsConfig>("Configs/LevelsConfig");
         
         _levelsList = new ReorderableList(_levelsConfig.LevelsData, typeof(LevelData), 
@@ -46,110 +46,33 @@ public class LevelsEditor : EditorWindow
             },
             onSelectCallback = list =>
             {
-                _playersList = new ReorderableList(_levelsConfig.LevelsData[list.index].PlayersData, typeof(PlayerData), 
+                _nodesList = new ReorderableList(_levelsConfig.LevelsData[list.index].NodesData, typeof(NodeData), 
                     true, true, true, true)
                 {
                     drawElementCallback = (rect, index, _, _) =>
                     {
                         rect.y += 2;
-                        var teamData = _levelsConfig.LevelsData[list.index].PlayersData[index];
-                        teamData.TeamID = EditorGUI.IntField(rect, $"{teamData.GetType()} Team", teamData.TeamID);
+                        rect.xMax /= 5;
+
+                        var node = _levelsConfig.LevelsData[list.index].NodesData[index];
+                        node.TeamId = _levelsConfig.LevelsData[list.index].NodesData[index].TeamId;
+                        node.Position = EditorGUI.Vector3Field(rect, string.Empty, node.Position);
+
+                        rect.x = rect.xMax;
+                        node.Radius = EditorGUI.FloatField(rect, "Radius", node.Radius);
+                        
+                        rect.x = rect.xMax;
+                        node.TeamId = EditorGUI.IntField(rect, "Team ID", node.TeamId);
+
+                        rect.x = rect.xMax;
+                        node.MaxUnitCount = EditorGUI.IntField(rect, "Max units", node.MaxUnitCount);
+                                
+                        rect.x = rect.xMax;
+                        node.Injection = EditorGUI.IntField(rect, "injection", node.Injection);
                     },
                     drawHeaderCallback = rect => 
                     {  
-                        EditorGUI.LabelField(rect, "Player Teams");
-                    },
-                    onAddCallback = tList =>
-                    {
-                        _levelsConfig.LevelsData[list.index].PlayersData.Add(new PlayerData());
-                    },
-                    onRemoveCallback = tList =>
-                    {
-                        _levelsConfig.LevelsData[list.index].PlayersData.RemoveAt(tList.index);
-                    },
-                    onSelectCallback = tList =>
-                    {
-                        _isPlayerTeam = true;
-                        
-                        _teamNodesList = new ReorderableList(_levelsConfig.LevelsData[list.index].PlayersData[tList.index].NodesData, typeof(NodeData), 
-                            true, true, true, true)
-                        {
-                            drawElementCallback = (rect, index, _, _) =>
-                            {
-                                rect.y += 2;
-                                rect.xMax /= 3;
-
-                                var node = _levelsConfig.LevelsData[list.index].PlayersData[tList.index]
-                                    .NodesData[index];
-                                node.TeamID = _levelsConfig.LevelsData[list.index].PlayersData[tList.index].TeamID;
-                                node.Position = EditorGUI.Vector3Field(rect, string.Empty, node.Position);
-
-                                rect.x = rect.xMax;
-                                node.Radius = EditorGUI.FloatField(rect, "Radius", node.Radius);
-
-                                rect.x = rect.xMax;
-                                node.MaxUnitCount = EditorGUI.IntField(rect, "Max units", node.MaxUnitCount);
-                            },
-                            drawHeaderCallback = rect => 
-                            {  
-                                EditorGUI.LabelField(rect, "Nodes");
-                            }
-                        };
-                        
-                        LoadLevel(list.index);
-                    }
-                };
-                
-                 _aisList = new ReorderableList(_levelsConfig.LevelsData[list.index].AisData, typeof(AIData), 
-                    true, true, true, true)
-                {
-                    drawElementCallback = (rect, index, _, _) =>
-                    {
-                        rect.y += 2;
-                        var teamData = _levelsConfig.LevelsData[list.index].AisData[index];
-                        teamData.TeamID = EditorGUI.IntField(rect, $"{teamData.GetType()} Team", teamData.TeamID);
-                    },
-                    drawHeaderCallback = rect => 
-                    {  
-                        EditorGUI.LabelField(rect, "AI Teams");
-                    },
-                    onAddCallback = tList =>
-                    {
-                        _levelsConfig.LevelsData[list.index].AisData.Add(new AIData());
-                    },
-                    onRemoveCallback = tList =>
-                    {
-                        _levelsConfig.LevelsData[list.index].AisData.RemoveAt(tList.index);
-                    },
-                    onSelectCallback = tList =>
-                    {
-                        _isPlayerTeam = false;
-                        
-                        _teamNodesList = new ReorderableList(_levelsConfig.LevelsData[list.index].AisData[tList.index].NodesData, typeof(NodeData), 
-                            true, true, true, true)
-                        {
-                            drawElementCallback = (rect, index, _, _) =>
-                            {
-                                rect.y += 2;
-                                rect.xMax /= 3;
-
-                                var node = _levelsConfig.LevelsData[list.index].AisData[tList.index].NodesData[index];
-                                node.TeamID = _levelsConfig.LevelsData[list.index].AisData[tList.index].TeamID;
-                                node.Position = EditorGUI.Vector3Field(rect, string.Empty, node.Position);
-
-                                rect.x = rect.xMax;
-                                node.Radius = EditorGUI.FloatField(rect, "Radius", node.Radius);
-
-                                rect.x = rect.xMax;
-                                node.MaxUnitCount = EditorGUI.IntField(rect, "Max units", node.MaxUnitCount);
-                            },
-                            drawHeaderCallback = rect => 
-                            {  
-                                EditorGUI.LabelField(rect, "Nodes");
-                            }
-                        };
-                        
-                        LoadLevel(list.index);
+                        EditorGUI.LabelField(rect, "Nodes");
                     }
                 };
                 
@@ -159,9 +82,17 @@ public class LevelsEditor : EditorWindow
         
         SceneView.duringSceneGui += OnSceneGUI;
     }
-    
+
+    private void OnDisable()
+    {
+        _isWindowActive = false;
+    }
+
     private void OnSceneGUI(SceneView scene)
     {
+        if (!_isWindowActive)
+            return;
+        
         if (Event.current.type == EventType.MouseUp)
         {
             var mousePosition = (Vector3) Event.current.mousePosition;
@@ -169,16 +100,9 @@ public class LevelsEditor : EditorWindow
             mousePosition = new Vector3(ray.origin.x, ray.origin.y, 0);
             var newPos = mousePosition;
             
-            if (_levelsList.index >= 0 && _teamNodesList.index >= 0)
+            if (_levelsList.index >= 0 && _nodesList.index >= 0)
             {
-                if (_playersList.index >= 0 && _isPlayerTeam)
-                    _levelsConfig.LevelsData[_levelsList.index].PlayersData[_playersList.index]
-                        .NodesData[_teamNodesList.index].Position = newPos;
-                
-                if (_aisList.index >= 0 && !_isPlayerTeam)
-                    _levelsConfig.LevelsData[_levelsList.index].AisData[_aisList.index]
-                        .NodesData[_teamNodesList.index].Position = newPos;
-                
+                _levelsConfig.LevelsData[_levelsList.index].NodesData[_nodesList.index].Position = newPos;
                 LoadLevel(_levelsList.index);
             }
         }
@@ -206,10 +130,7 @@ public class LevelsEditor : EditorWindow
             }
         }
         
-        _playersList?.DoLayoutList();
-        _aisList?.DoLayoutList();
-        
-        _teamNodesList?.DoLayoutList();
+        _nodesList?.DoLayoutList();
         
         EditorGUILayout.EndScrollView();
         EditorGUILayout.EndVertical();
@@ -221,28 +142,13 @@ public class LevelsEditor : EditorWindow
         var canvas = FindObjectOfType<Canvas>();
         var lvl = _levelsConfig.LevelsData[index];
         
-        foreach (var t in lvl.PlayersData)
+        foreach (var n in lvl.NodesData)
         {
-            foreach (var n in t.NodesData)
-            {
-                var nodeObj = Instantiate(_levelsConfig.NodeView, canvas.transform);
-                nodeObj.transform.position = n.Position;
-                nodeObj.SetSprite(_levelsConfig.NodeSprites[n.TeamID]);
-                nodeObj.SetUnitCountText(n.MaxUnitCount.ToString());
-                nodeObj.SetRadius(n.Radius);
-            }
-        }
-        
-        foreach (var t in lvl.AisData)
-        {
-            foreach (var n in t.NodesData)
-            {
-                var nodeObj = Instantiate(_levelsConfig.NodeView, canvas.transform);
-                nodeObj.transform.position = n.Position;
-                nodeObj.SetSprite(_levelsConfig.NodeSprites[n.TeamID]);
-                nodeObj.SetUnitCountText(n.MaxUnitCount.ToString());
-                nodeObj.SetRadius(n.Radius);
-            }
+            var nodeObj = Instantiate(_levelsConfig.NodeView, canvas.transform);
+            nodeObj.transform.position = n.Position;
+            nodeObj.SetSprite(_levelsConfig.TeamSprites[n.TeamId]);
+            nodeObj.SetUnitCountText(n.Injection.ToString());
+            nodeObj.SetRadius(n.Radius);
         }
     }
 }

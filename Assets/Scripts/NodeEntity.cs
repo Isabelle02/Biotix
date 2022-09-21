@@ -10,6 +10,20 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
     private float _unitReproductionTimeScale = 1;
     private float _unitReproductionPassTime;
 
+    private int _teamId;
+    
+    public int TeamId
+    {
+        get => _teamId;
+        set
+        {
+            _teamId = value;
+            _nodeView.SetSprite(LevelManager.LevelsConfig.TeamSprites[value]);
+            var system = WorldManager.CurrentWorld.GetSystem<NodeSystem>();
+            system.UpdateNodes(this);
+        }
+    }
+
     public int UnitCount
     {
         get => _unitCount;
@@ -19,19 +33,22 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
             _nodeView.SetUnitCountText(value.ToString());
         }
     }
+
+    public Vector3 CurrentPosition => _nodeView.transform.position;
     
     public NodeEntity(NodeData data) : base(data)
     {
         _nodeView = Recycler<NodeView>.Get();
         _nodeView.transform.SetParent(PageManager.Get<GameplayPage>().transform, false);
-        _nodeView.transform.position = data.Position;
-        _nodeView.SetSprite(LevelManager.LevelsConfig.NodeSprites[data.TeamID]);
+        _nodeView.transform.position = data.Position - Vector3.forward * 2;
+        _nodeView.SetSprite(LevelManager.LevelsConfig.TeamSprites[data.TeamId]);
         _nodeView.SetRadius(data.Radius);
         _nodeView.SetHighlighted(false);
         _nodeView.NodeEntity = this;
-        
+
+        _teamId = data.TeamId;
         _maxUnitCount = data.MaxUnitCount;
-        UnitCount = data.MaxUnitCount;
+        UnitCount = data.Injection;
     }
 
     public void SetHighlighted(bool isHighlighted)
@@ -63,8 +80,20 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
         _nodeView.SetLineActive(isActive);
     }
 
-    public void SendUnits()
+    public void SendUnits(NodeEntity node)
     {
+        var unitsToSend = UnitCount - UnitCount / 2;
         UnitCount /= 2;
+        var basePos = _nodeView.transform.position;
+        for (var i = 0; i < unitsToSend; i++)
+        {
+            var data = new UnitData();
+            var posInCircle = Random.insideUnitCircle * Data.Radius / 100;
+            data.Position = new Vector3(basePos.x + posInCircle.x, basePos.y + posInCircle.y, basePos.z + 1);
+            data.EndPosition = data.Position + (node._nodeView.transform.position - basePos);
+            data.TeamId = TeamId;
+            var unit = WorldManager.CurrentWorld.CreateNewObject(data) as UnitEntity;
+            unit?.Run(node);
+        }
     }
 }
