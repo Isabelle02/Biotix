@@ -102,5 +102,12 @@ public class BaseWorld : IWorld
 
         foreach (var system in baseSystems)
             RemoveSystem(system);
+        
+        var baseEntities = new List<BaseEntity>();
+        foreach (var entity in _entities)
+            baseEntities.Add(entity.Key);
+        
+        foreach (var entity in baseEntities)
+            RemoveEntity(entity);
     }
 }

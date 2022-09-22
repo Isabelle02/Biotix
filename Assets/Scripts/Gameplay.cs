@@ -1,15 +1,13 @@
 ﻿using UnityEngine;
 
-public class Gameplay : MonoBehaviour
+public class Gameplay : IUpdatable
 {
-    private bool _isPaused;
-
     private Vector3 _mouseDownPos;
     private bool _isDragged;
 
     private NodeSystem _nodeSystem;
 
-    private async void Start()
+    public async void Init()
     {
         var worldData = new WorldData();
         var lvlData = LevelManager.LevelsConfig.LevelsData[0];
@@ -20,19 +18,19 @@ public class Gameplay : MonoBehaviour
         }
 
         var updateSystem = new UpdateSystem();
+        var unitSystem = new UnitSystem();
         _nodeSystem = new NodeSystem();
 
         WorldManager.CurrentWorld = new BaseWorld();
-        WorldManager.CurrentWorld.Activate(worldData, updateSystem, _nodeSystem);
+        WorldManager.CurrentWorld.Activate(worldData, updateSystem, unitSystem, _nodeSystem);
+        
+        updateSystem.AddUpdatable(this);
 
         await updateSystem.Update();
     }
     
-    private void Update()
+    public void Update(float delta)
     {
-        if (_isPaused)
-            return;
-        
         if (Input.GetMouseButtonDown(0))
             _mouseDownPos = MouseManager.GetMousePosition(0);
 
@@ -72,5 +70,4 @@ public class Gameplay : MonoBehaviour
             } 
         } 
     }
-
 }

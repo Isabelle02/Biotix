@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class UnitEntity : BaseEntity<UnitData>
+public class UnitEntity : BaseEntity<UnitData>, IActor
 {
     private UnitView _unitView;
 
@@ -22,7 +22,6 @@ public class UnitEntity : BaseEntity<UnitData>
         _unitView.transform.position = data.Position;
         _unitView.SetSprite(LevelManager.LevelsConfig.TeamSprites[data.TeamId]);
         _unitView.UnitEntity = this;
-        _unitView.Disposed += () => world.RemoveEntity(this);
 
         _endPosition = data.EndPosition;
         _attack = data.Attack;
@@ -34,5 +33,15 @@ public class UnitEntity : BaseEntity<UnitData>
     {
         _unitView.TargetNode = target;
         _unitView.Run(_endPosition, _speed);
+    }
+
+    public void SetPause(bool isPaused)
+    {
+        _unitView.SetPause(isPaused);
+    }
+
+    public override void Dispose()
+    {
+        Recycler<UnitView>.Release(_unitView);
     }
 }

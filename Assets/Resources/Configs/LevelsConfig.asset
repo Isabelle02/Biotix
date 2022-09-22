@@ -16,9 +16,35 @@ MonoBehaviour:
   TeamSprites:
   - {fileID: 21300000, guid: c77bb4bf425a2b343b68e56e97756e14, type: 3}
   - {fileID: 21300000, guid: aea2bf14d45a0b842baaf1ca9e3474fa, type: 3}
-  - {fileID: 21300000, guid: e1e1b6698440376478d53dc7a272ca0d, type: 3}
-  - {fileID: 21300000, guid: 6f5d42c20f75b514ea035c99c2528a55, type: 3}
-  - {fileID: 21300000, guid: ae5109c5ffa2d824194dcb27f66136d4, type: 3}
   - {fileID: 21300000, guid: 8278d5cc3d1a34b4d8cb009e4a7cc9a4, type: 3}
+  - {fileID: 21300000, guid: ae5109c5ffa2d824194dcb27f66136d4, type: 3}
+  - {fileID: 21300000, guid: 6f5d42c20f75b514ea035c99c2528a55, type: 3}
+  - {fileID: 21300000, guid: e1e1b6698440376478d53dc7a272ca0d, type: 3}
+  - {fileID: 21300000, guid: cde326d840da42041af7622decf07b5e, type: 3}
   LevelsData:
-  - NodesData: []
+  - NodesData:
+    - TeamId: 0
+      Position: {x: -5.0229893, y: 0.08920264, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 20
+    - TeamId: 1
+      Position: {x: 1.9839594, y: 3.44199, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 20
+    - TeamId: 1
+      Position: {x: 6.3162127, y: 3.253631, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 20
+    - TeamId: 2
+      Position: {x: 6.0901823, y: -3.527287, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 20
+    - TeamId: 2
+      Position: {x: 1.1928523, y: -3.3389282, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 20

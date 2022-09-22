@@ -1,30 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class PausePopup : Popup
+public class MatchCompletionPopup : Popup
 {
-    [SerializeField] private Button _playButton;
+    [SerializeField] private Button _nextButton;
     [SerializeField] private Button _restartButton;
     [SerializeField] private Button _mainMenuButton;
-    [SerializeField] private Toggle _soundToggle;
     
     protected override void OnOpenStart(ViewParam viewParam)
     {
-        _playButton.onClick.AddListener(OnPlayButtonClicked);
+        _nextButton.onClick.AddListener(OnNextButtonClicked);
         _restartButton.onClick.AddListener(OnRestartButtonClicked);
         _mainMenuButton.onClick.AddListener(OnMainMenuButtonClicked);
-        _soundToggle.onValueChanged.AddListener(OnSoundCheckBoxValueChanged);
-    }
-
-    private void OnPlayButtonClicked()
-    {
-        PopupManager.CloseLast();
-    }
-
-    private void OnRestartButtonClicked()
-    {
-        PopupManager.CloseLast();
-        PageManager.Open<GameplayPage>();
     }
 
     private void OnMainMenuButtonClicked()
@@ -33,16 +20,22 @@ public class PausePopup : Popup
         PageManager.Open<MainMenuPage>();
     }
 
-    private void OnSoundCheckBoxValueChanged(bool value)
+    private void OnRestartButtonClicked()
     {
-        
+        PopupManager.CloseLast();
+        PageManager.Open<GameplayPage>();
+    }
+
+    private void OnNextButtonClicked()
+    {
+        PopupManager.CloseLast();
+        PageManager.Open<GameplayPage>();
     }
 
     protected override void OnCloseStart()
     {
-        _playButton.onClick.RemoveListener(OnPlayButtonClicked);
+        _nextButton.onClick.RemoveListener(OnNextButtonClicked);
         _restartButton.onClick.RemoveListener(OnRestartButtonClicked);
         _mainMenuButton.onClick.RemoveListener(OnMainMenuButtonClicked);
-        _soundToggle.onValueChanged.RemoveListener(OnSoundCheckBoxValueChanged);
     }
 }

@@ -96,4 +96,9 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
             unit?.Run(node);
         }
     }
+
+    public override void Dispose()
+    {
+        Recycler<NodeView>.Release(_nodeView);
+    }
 }

@@ -34,11 +34,11 @@ public class Recycler<T> : Recycler where T : MonoBehaviour
 
     public static void Release(T obj)
     {
-        obj.gameObject.SetActive(false);
-        _poolObjects.Push(obj);
-        
         if (obj is IReleasable releasable)
             releasable.Dispose();
+        
+        obj.gameObject.SetActive(false);
+        _poolObjects.Push(obj);
     }
         
     private static T CreateObject()

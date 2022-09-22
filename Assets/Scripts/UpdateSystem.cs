@@ -14,6 +14,11 @@ public class UpdateSystem : BaseSystem<IUpdatable>
     {
         _updatables.Add(updatable);
     }
+    
+    public void ClearUpdatables()
+    {
+        _updatables.Clear();
+    }
 
     protected override void AddActor(IUpdatable actor)
     {
@@ -22,7 +27,7 @@ public class UpdateSystem : BaseSystem<IUpdatable>
 
     protected override void RemoveActor(IUpdatable actor)
     {
-        _updatables.Add(actor);
+        _updatables.Remove(actor);
     }
     
     public async Task SetPause(bool isPaused)
