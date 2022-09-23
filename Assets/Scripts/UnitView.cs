@@ -25,12 +25,13 @@ public class UnitView : MonoBehaviour, IReleasable
                 if (TargetNode.TeamId == UnitEntity.TeamId || TargetNode.UnitCount == 0)
                 {
                     TargetNode.UnitCount++;
-                    TargetNode.TeamId = UnitEntity.TeamId;
+                    if (TargetNode.TeamId != UnitEntity.TeamId)
+                        TargetNode.TeamId = UnitEntity.TeamId;
                 }
                 else
                 {
                     TargetNode.UnitCount--;
-                    if (TargetNode.UnitCount == 0)
+                    if (TargetNode.UnitCount == 0 && TargetNode.TeamId != 0)
                         TargetNode.TeamId = 0;
                 }
                 

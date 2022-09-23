@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _popupPrefabs:
   - {fileID: 8208679208709653267, guid: 3751f6ea53b1f1b478043803e30f7df7, type: 3}
+  - {fileID: 7123961582581428105, guid: 67b55bd88ad93d346a3e96ead0672719, type: 3}

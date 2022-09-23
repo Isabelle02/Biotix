@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class NodeSystem : BaseSystem<NodeEntity>
 {
@@ -46,15 +48,21 @@ public class NodeSystem : BaseSystem<NodeEntity>
 
         var newOwner = _nodesControllers.Find(nc => nc.TeamId == node.TeamId);
         newOwner.Nodes.Add(node);
-
-        var aliveControllers = _nodesControllers.FindAll(nc => nc.Nodes.Count > 0);
-        if (aliveControllers.Count == 1 && aliveControllers[0].TeamId == 1)
-            PopupManager.Open<MatchCompletionPopup>(new MatchCompletionPopup.Param(true));
+        
+        var player = _nodesControllers.Find(nc => nc.TeamId == 1);
+        if (player.Nodes.Count == 0)
+        {
+            Debug.Log("Defeat");
+            PopupManager.Open<MatchCompletionPopup>(new MatchCompletionPopup.Param(false));
+        }
         else
         {
-            var player = _nodesControllers.Find(nc => nc.TeamId == 1);
-            if (player.Nodes.Count == 0)
-                PopupManager.Open<MatchCompletionPopup>(new MatchCompletionPopup.Param(false));
+            if (_nodesControllers.All(nc => nc.TeamId is 0 or 1 && nc.Nodes.Count > 0 ||
+                nc.TeamId > 1 && nc.Nodes.Count == 0))
+            {
+                Debug.Log("Victory");
+                PopupManager.Open<MatchCompletionPopup>(new MatchCompletionPopup.Param(true));
+            }
         }
     }
 

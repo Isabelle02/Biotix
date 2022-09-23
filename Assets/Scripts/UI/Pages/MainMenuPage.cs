@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class MainMenuPage : Page
@@ -10,15 +11,20 @@ public class MainMenuPage : Page
     
     protected override void OnOpenStart(ViewParam viewParam)
     {
+        _soundToggle.isOn = !SoundManager.IsOn;
+        
         _playButton.onClick.AddListener(OnPlayButtonClicked);
         _settingsButton.onClick.AddListener(OnSettingsButtonClicked);
         _ratingButton.onClick.AddListener(OnRatingButtonClicked);
         _soundToggle.onValueChanged.AddListener(OnSoundCheckBoxValueChanged);
     }
 
-    private void OnSoundCheckBoxValueChanged(bool value)
+    private async void OnSoundCheckBoxValueChanged(bool value)
     {
-        
+        SoundManager.IsOn = true;
+        SoundManager.Play(Sound.Toggle);
+        await Task.Delay((int) (SoundManager.GetClipLength(Sound.Toggle) * 1000));
+        SoundManager.IsOn = !value;
     }
 
     private void OnPlayButtonClicked()

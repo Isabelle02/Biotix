@@ -1,6 +1,11 @@
-﻿namespace UI.Pages
+﻿public class LevelsPage : Page
 {
-    public class LevelsPage
+    protected override void OnOpenStart(ViewParam viewParam)
+    {
+        
+    }
+
+    protected override void OnCloseStart()
     {
         
     }

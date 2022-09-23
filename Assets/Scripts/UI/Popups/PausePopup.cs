@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PausePopup : Popup
@@ -12,6 +13,8 @@ public class PausePopup : Popup
     {
         WorldManager.CurrentWorld.GetSystem<UpdateSystem>()?.SetPause(true);
         WorldManager.CurrentWorld.GetSystem<UnitSystem>()?.SetPause(true);
+        
+        _soundToggle.isOn = !SoundManager.IsOn;
         
         _playButton.onClick.AddListener(OnPlayButtonClicked);
         _restartButton.onClick.AddListener(OnRestartButtonClicked);
@@ -36,9 +39,12 @@ public class PausePopup : Popup
         PageManager.Open<MainMenuPage>();
     }
 
-    private void OnSoundCheckBoxValueChanged(bool value)
+    private async void OnSoundCheckBoxValueChanged(bool value)
     {
-        
+        SoundManager.IsOn = true;
+        SoundManager.Play(Sound.Toggle);
+        await Task.Delay((int) (SoundManager.GetClipLength(Sound.Toggle) * 1000));
+        SoundManager.IsOn = !value;
     }
 
     protected override void OnCloseStart()

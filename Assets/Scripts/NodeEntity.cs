@@ -58,6 +58,9 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
 
     public void Update(float delta)
     {
+        if (TeamId == 0)
+            return;
+        
         _unitReproductionPassTime += delta;
         if (_unitReproductionPassTime >= _unitReproductionTimeScale)
         {
