@@ -35,7 +35,6 @@ public class UnitView : MonoBehaviour, IReleasable
                 }
                 
                 WorldManager.CurrentWorld.RemoveEntity(UnitEntity);
-                Recycler<UnitView>.Release(this);
             }
         }
     }

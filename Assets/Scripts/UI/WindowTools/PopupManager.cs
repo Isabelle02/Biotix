@@ -26,7 +26,7 @@ public class PopupManager : MonoBehaviour
         canvas.worldCamera = Camera.main;
     }
 
-    public static void Open<T>() where T : Popup
+    public static void Open<T>(Popup.ViewParam viewParam = null) where T : Popup
     {
         if (!_instance._popupsDictionary.ContainsKey(typeof(T)))
         {
@@ -41,7 +41,7 @@ public class PopupManager : MonoBehaviour
 
         var p = _instance._popupsDictionary[typeof(T)];
 
-        p.Open();
+        p.Open(viewParam);
         _instance._openedPopups.Push(p);
     }
     

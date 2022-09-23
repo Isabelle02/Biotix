@@ -35,7 +35,7 @@ public class Gameplay : IUpdatable
             _mouseDownPos = MouseManager.GetMousePosition(0);
 
         if (Input.GetMouseButtonUp(0)) 
-        { 
+        {
             var node = MouseManager.GetObject<NodeView>();
             if (node != null) 
             { 

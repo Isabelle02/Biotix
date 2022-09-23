@@ -10,6 +10,9 @@ public class PausePopup : Popup
     
     protected override void OnOpenStart(ViewParam viewParam)
     {
+        WorldManager.CurrentWorld.GetSystem<UpdateSystem>()?.SetPause(true);
+        WorldManager.CurrentWorld.GetSystem<UnitSystem>()?.SetPause(true);
+        
         _playButton.onClick.AddListener(OnPlayButtonClicked);
         _restartButton.onClick.AddListener(OnRestartButtonClicked);
         _mainMenuButton.onClick.AddListener(OnMainMenuButtonClicked);
@@ -44,5 +47,8 @@ public class PausePopup : Popup
         _restartButton.onClick.RemoveListener(OnRestartButtonClicked);
         _mainMenuButton.onClick.RemoveListener(OnMainMenuButtonClicked);
         _soundToggle.onValueChanged.RemoveListener(OnSoundCheckBoxValueChanged);
+        
+        WorldManager.CurrentWorld.GetSystem<UpdateSystem>()?.SetPause(false);
+        WorldManager.CurrentWorld.GetSystem<UnitSystem>()?.SetPause(false);
     }
 }

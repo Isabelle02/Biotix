@@ -6,7 +6,7 @@ public abstract class Popup : MonoBehaviour
 
     protected abstract void OnCloseStart();
 
-    public void Open(ViewParam viewParam = null)
+    public void Open(ViewParam viewParam)
     {
         gameObject.SetActive(true);
         OnOpenStart(viewParam);

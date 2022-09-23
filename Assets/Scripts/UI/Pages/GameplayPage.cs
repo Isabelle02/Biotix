@@ -17,9 +17,6 @@ public class GameplayPage : Page
 
     private void OnPauseButtonClicked()
     {
-        WorldManager.CurrentWorld.GetSystem<UpdateSystem>()?.SetPause(true);
-        WorldManager.CurrentWorld.GetSystem<UnitSystem>()?.SetPause(true);
-
         _pauseButton.gameObject.SetActive(false);
         PopupManager.Open<PausePopup>();
         PopupManager.Closed += OnPausePopupClosed;
@@ -30,8 +27,6 @@ public class GameplayPage : Page
         if (popup is not PausePopup)
             return;
         
-        WorldManager.CurrentWorld.GetSystem<UpdateSystem>()?.SetPause(false);
-        WorldManager.CurrentWorld.GetSystem<UnitSystem>()?.SetPause(false);
         _pauseButton.gameObject.SetActive(true);
     }
 

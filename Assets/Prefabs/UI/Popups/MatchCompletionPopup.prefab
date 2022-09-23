@@ -598,6 +598,7 @@ MonoBehaviour:
   _nextButton: {fileID: 7552119243815167072}
   _restartButton: {fileID: 7074494574000534906}
   _mainMenuButton: {fileID: 5361593171712115263}
+  _resultText: {fileID: 2698238870639814254}
 --- !u!1 &4657060015580394994
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,7 +733,7 @@ GameObject:
   - component: {fileID: 3792479175084538806}
   - component: {fileID: 2698238870639814254}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: ResultText (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
