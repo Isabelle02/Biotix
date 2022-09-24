@@ -18,6 +18,12 @@ public class MatchCompletionPopup : Popup
         
         WorldManager.CurrentWorld.GetSystem<UpdateSystem>()?.SetPause(true);
         WorldManager.CurrentWorld.GetSystem<UnitSystem>()?.SetPause(true);
+
+        if (param.IsWin && LevelManager.CurrentLevelIndex == LevelManager.PassedLevelsCount)
+            LevelManager.PassedLevelsCount++;
+
+        _nextButton.gameObject.SetActive(param.IsWin &&
+            LevelManager.CurrentLevelIndex != LevelManager.LevelsConfig.LevelsData.Count - 1);
         
         _nextButton.onClick.AddListener(OnNextButtonClicked);
         _restartButton.onClick.AddListener(OnRestartButtonClicked);
@@ -35,13 +41,13 @@ public class MatchCompletionPopup : Popup
     private void OnRestartButtonClicked()
     {
         PopupManager.CloseLast();
-        PageManager.Open<GameplayPage>();
+        PageManager.Open<GameplayPage>(new GameplayPage.Param(LevelManager.CurrentLevelIndex));
     }
 
     private void OnNextButtonClicked()
     {
         PopupManager.CloseLast();
-        PageManager.Open<GameplayPage>();
+        PageManager.Open<GameplayPage>(new GameplayPage.Param(LevelManager.CurrentLevelIndex + 1));
     }
 
     protected override void OnCloseStart()

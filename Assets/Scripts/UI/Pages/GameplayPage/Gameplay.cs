@@ -7,10 +7,10 @@ public class Gameplay : IUpdatable
 
     private NodeSystem _nodeSystem;
 
-    public async void Init()
+    public async void Init(int levelIndex)
     {
         var worldData = new WorldData();
-        var lvlData = LevelManager.LevelsConfig.LevelsData[0];
+        var lvlData = LevelManager.LevelsConfig.LevelsData[levelIndex];
         
         foreach (var t in lvlData.NodesData)
         {

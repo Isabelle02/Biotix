@@ -6,6 +6,16 @@ public class LevelManager : MonoBehaviour
 
     public static LevelsConfig LevelsConfig { get; private set; }
 
+    private const string PassedLevelsKey = "PassedLevels";
+
+    public static int PassedLevelsCount
+    {
+        get => PlayerPrefs.GetInt(PassedLevelsKey, 0);
+        set => PlayerPrefs.SetInt(PassedLevelsKey, value);
+    }
+
+    public static int CurrentLevelIndex;
+
     private void Awake()
     {
         _instance = this;
@@ -16,13 +26,6 @@ public class LevelManager : MonoBehaviour
 
     public static void ResetLevel()
     {
-        DestroyObjectsOfType<NodeView>();
-    }
-
-    private static void DestroyObjectsOfType<T>() where T : MonoBehaviour
-    {
-        var objects = FindObjectsOfType<T>();
-        for (var i = objects.Length - 1; i >= 0; i--)
-            DestroyImmediate(objects[i].gameObject);
+        _instance.DestroyObjectsOfType<NodeView>();
     }
 }

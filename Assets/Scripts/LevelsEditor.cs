@@ -1,6 +1,5 @@
 ﻿#if UNITY_EDITOR
 
-using System;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -138,7 +137,7 @@ public class LevelsEditor : EditorWindow
 
     private void LoadLevel(int index)
     {
-        LevelManager.ResetLevel();
+        this.DestroyObjectsOfType<NodeView>();
         var canvas = FindObjectOfType<Canvas>();
         var lvl = _levelsConfig.LevelsData[index];
         

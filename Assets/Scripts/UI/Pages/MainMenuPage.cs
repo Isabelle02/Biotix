@@ -29,7 +29,7 @@ public class MainMenuPage : Page
 
     private void OnPlayButtonClicked()
     {
-        PageManager.Open<GameplayPage>();
+        PageManager.Open<LevelsPage>();
     }
 
     private void OnSettingsButtonClicked()

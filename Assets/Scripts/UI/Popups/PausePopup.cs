@@ -30,7 +30,7 @@ public class PausePopup : Popup
     private void OnRestartButtonClicked()
     {
         PopupManager.CloseLast();
-        PageManager.Open<GameplayPage>();
+        PageManager.Open<GameplayPage>(new GameplayPage.Param(LevelManager.CurrentLevelIndex));
     }
 
     private void OnMainMenuButtonClicked()

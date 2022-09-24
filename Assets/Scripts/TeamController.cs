@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 
-public class NodesController
+public class TeamController
 {
+    public LaboratoryData LaboratoryData;
     public readonly int TeamId;
     public readonly List<NodeEntity> Nodes = new();
 
-    protected NodesController(int teamId)
+    protected TeamController(int teamId)
     {
         TeamId = teamId;
     }

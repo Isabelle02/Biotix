@@ -6,11 +6,11 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
 
     private int _maxUnitCount;
     private int _unitCount;
-
-    private float _unitReproductionTimeScale = 1;
-    private float _unitReproductionPassTime;
-
+    
     private int _teamId;
+    
+    private float _unitReproductionPassTime;
+    public float UnitReproductionTimeScale;
     
     public int TeamId
     {
@@ -62,7 +62,7 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
             return;
         
         _unitReproductionPassTime += delta;
-        if (_unitReproductionPassTime >= _unitReproductionTimeScale)
+        if (_unitReproductionPassTime >= UnitReproductionTimeScale)
         {
             if (UnitCount > _maxUnitCount)
                 UnitCount--;
@@ -83,7 +83,7 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
         _nodeView.SetLineActive(isActive);
     }
 
-    public void SendUnits(NodeEntity node)
+    public void SendUnits(NodeEntity target, float attack, float speed)
     {
         var unitsToSend = UnitCount - UnitCount / 2;
         UnitCount /= 2;
@@ -93,10 +93,12 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
             var data = new UnitData();
             var posInCircle = Random.insideUnitCircle * Data.Radius / 100;
             data.Position = new Vector3(basePos.x + posInCircle.x, basePos.y + posInCircle.y, basePos.z + 1);
-            data.EndPosition = data.Position + (node._nodeView.transform.position - basePos);
+            data.EndPosition = data.Position + (target._nodeView.transform.position - basePos);
             data.TeamId = TeamId;
+            data.Attack = attack;
+            data.Speed = speed;
             var unit = WorldManager.CurrentWorld.CreateNewObject(data) as UnitEntity;
-            unit?.Run(node);
+            unit?.Run(target);
         }
     }
 

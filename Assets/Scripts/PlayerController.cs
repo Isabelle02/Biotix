@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 
-public class PlayerController : NodesController
+public class PlayerController : TeamController
 {
-    public readonly List<NodeEntity> SelectedNodes = new();
+    private readonly List<NodeEntity> _selectedNodes = new();
 
     public PlayerController(int teamId) : base(teamId)
     {
+        LaboratoryData = new PlayerData();
     }
     
     public override bool ActivateNode(NodeEntity node)
@@ -13,31 +14,31 @@ public class PlayerController : NodesController
         if (!Nodes.Contains(node))
             return false;
         
-        if (SelectedNodes.Contains(node))
+        if (_selectedNodes.Contains(node))
             return false;
 
         node.SetHighlighted(true);
-        SelectedNodes.Add(node);
+        _selectedNodes.Add(node);
         return true;
     }
 
     public override void SendUnits(NodeEntity targetNode)
     {
-        if (SelectedNodes.Contains(targetNode))
+        if (_selectedNodes.Contains(targetNode))
         {
             targetNode.SetLineActive(false);
             targetNode.SetHighlighted(false);
-            SelectedNodes.Remove(targetNode);
+            _selectedNodes.Remove(targetNode);
         }
 
-        foreach (var n in SelectedNodes)
+        foreach (var n in _selectedNodes)
         {
-            n.SendUnits(targetNode);
+            n.SendUnits(targetNode, LaboratoryData.Attack, LaboratoryData.Speed);
             n.SetLineActive(false);
             n.SetHighlighted(false);
         }
         
-        SelectedNodes.Clear();
+        _selectedNodes.Clear();
     }
 
     public override void SearchTarget()
@@ -46,7 +47,7 @@ public class PlayerController : NodesController
         if (node != null)
             ActivateNode(node.NodeEntity);
         
-        foreach (var n in SelectedNodes)
+        foreach (var n in _selectedNodes)
         {
             n.SetLineActive(true);
             n.SetLineEndPosition(MouseManager.GetMousePosition(0));
@@ -55,7 +56,7 @@ public class PlayerController : NodesController
 
     public override void StopSearching()
     {
-        foreach (var n in SelectedNodes)
+        foreach (var n in _selectedNodes)
         {
             n.SetLineActive(false);
         }
@@ -63,22 +64,22 @@ public class PlayerController : NodesController
 
     public override void DeactivateNode(NodeEntity node)
     {
-        if (SelectedNodes.Contains(node))
+        if (_selectedNodes.Contains(node))
         {
             node.SetLineActive(false);
             node.SetHighlighted(false);
-            SelectedNodes.Remove(node);
+            _selectedNodes.Remove(node);
         }
     }
 
     public override void DeactivateNodes()
     {
-        foreach (var n in SelectedNodes)
+        foreach (var n in _selectedNodes)
         {
             n.SetLineActive(false);
             n.SetHighlighted(false);
         }
         
-        SelectedNodes.Clear();
+        _selectedNodes.Clear();
     }
 }

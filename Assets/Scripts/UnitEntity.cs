@@ -5,9 +5,9 @@ public class UnitEntity : BaseEntity<UnitData>, IActor
     private UnitView _unitView;
 
     private Vector3 _endPosition;
-    private float _attack;
-    private float _defence;
     private float _speed;
+
+    public float Attack => Data.Attack;
 
     public int TeamId
     {
@@ -15,7 +15,7 @@ public class UnitEntity : BaseEntity<UnitData>, IActor
         set => Data.TeamId = value;
     }
 
-    public UnitEntity(IWorld world, UnitData data) : base(data)
+    public UnitEntity(UnitData data) : base(data)
     {
         _unitView = Recycler<UnitView>.Get();
         _unitView.transform.SetParent(PageManager.Get<GameplayPage>().transform, false);
@@ -24,8 +24,6 @@ public class UnitEntity : BaseEntity<UnitData>, IActor
         _unitView.UnitEntity = this;
 
         _endPosition = data.EndPosition;
-        _attack = data.Attack;
-        _defence = data.Defence;
         _speed = data.Speed;
     }
 

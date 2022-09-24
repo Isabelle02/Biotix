@@ -2,17 +2,18 @@
 using System.Linq;
 using UnityEngine;
 
-public class AiController : NodesController, IUpdatable
+public class AiController : TeamController, IUpdatable
 {
     private float _stepTimeScale = 4f;
     private float _stepPassTime;
 
     private NodeEntity _targetNode;
-    
-    public readonly List<NodeEntity> SelectedNodes = new();
+
+    private readonly List<NodeEntity> _selectedNodes = new();
 
     public AiController(int teamId) : base(teamId)
     {
+        LaboratoryData = new AiData();
     }
     
     public void Update(float delta)
@@ -34,26 +35,26 @@ public class AiController : NodesController, IUpdatable
         if (!Nodes.Contains(node))
             return false;
         
-        if (SelectedNodes.Contains(node))
+        if (_selectedNodes.Contains(node))
             return false;
 
-        SelectedNodes.Add(node);
+        _selectedNodes.Add(node);
         return true;
     }
 
     public override void SendUnits(NodeEntity targetNode)
     {
-        if (SelectedNodes.Contains(targetNode))
+        if (_selectedNodes.Contains(targetNode))
         {
-            SelectedNodes.Remove(targetNode);
+            _selectedNodes.Remove(targetNode);
         }
 
-        foreach (var n in SelectedNodes)
+        foreach (var n in _selectedNodes)
         {
-            n.SendUnits(targetNode);
+            n.SendUnits(targetNode, LaboratoryData.Attack, LaboratoryData.Speed);
         }
         
-        SelectedNodes.Clear();
+        _selectedNodes.Clear();
     }
 
     public override void SearchTarget()
@@ -66,22 +67,22 @@ public class AiController : NodesController, IUpdatable
                 i--;
         }
         
-        var main = SelectedNodes[Random.Range(0, count)];
+        var main = _selectedNodes[Random.Range(0, count)];
         var nearest = FindNearest(main, 100);
         _targetNode = nearest[Random.Range(0, nearest.Count)];
     }
 
     public override void DeactivateNode(NodeEntity node)
     {
-        if (SelectedNodes.Contains(node))
+        if (_selectedNodes.Contains(node))
         {
-            SelectedNodes.Remove(node);
+            _selectedNodes.Remove(node);
         }
     }
 
     public override void DeactivateNodes()
     {
-        SelectedNodes.Clear();
+        _selectedNodes.Clear();
     }
 
     private List<NodeEntity> FindNearest(NodeEntity main, float radius)

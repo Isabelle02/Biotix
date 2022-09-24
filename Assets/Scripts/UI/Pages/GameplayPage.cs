@@ -9,10 +9,16 @@ public class GameplayPage : Page
     
     protected override void OnOpenStart(ViewParam viewParam)
     {
+        if (viewParam is not Param param)
+        {
+            Debug.LogError("GameplayPage: Not Found ViewParam");
+            return;
+        }
+        
         _pauseButton.onClick.AddListener(OnPauseButtonClicked);
 
         _gameplay = new Gameplay();
-        _gameplay.Init();
+        _gameplay.Init(param.LevelIndex);
     }
 
     private void OnPauseButtonClicked()

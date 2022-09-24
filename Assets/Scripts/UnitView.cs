@@ -22,19 +22,7 @@ public class UnitView : MonoBehaviour, IReleasable
         {
             if (TargetNode == nodeView.NodeEntity)
             {
-                if (TargetNode.TeamId == UnitEntity.TeamId || TargetNode.UnitCount == 0)
-                {
-                    TargetNode.UnitCount++;
-                    if (TargetNode.TeamId != UnitEntity.TeamId)
-                        TargetNode.TeamId = UnitEntity.TeamId;
-                }
-                else
-                {
-                    TargetNode.UnitCount--;
-                    if (TargetNode.UnitCount == 0 && TargetNode.TeamId != 0)
-                        TargetNode.TeamId = 0;
-                }
-                
+                WorldManager.CurrentWorld.GetSystem<NodeSystem>().GetHit(TargetNode, UnitEntity);
                 WorldManager.CurrentWorld.RemoveEntity(UnitEntity);
             }
         }
@@ -57,12 +45,21 @@ public class UnitView : MonoBehaviour, IReleasable
         _moveAnimTween = PlayMoveAnim(duration / 10);
     }
 
+    private bool _isRunning;
+
     private Tween PlayMoveAnim(float duration)
     {
         return DOTween.To(() => _minSize,
             x => _rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, x),
             _maxSize,
-            duration).SetLoops(-1, LoopType.Yoyo);
+            duration).SetLoops(-1, LoopType.Yoyo).OnStepComplete(() =>
+        {
+            _isRunning = !_isRunning;
+            if (_isRunning)
+                _runningTween?.Play();
+            else
+                _runningTween?.Pause();
+        });
     }
 
     public void SetPause(bool isPaused)
