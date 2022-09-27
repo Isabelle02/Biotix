@@ -34,7 +34,7 @@ public class MainMenuPage : Page
 
     private void OnSettingsButtonClicked()
     {
-        
+        PageManager.Open<LaboratoryPage>();
     }
 
     private void OnRatingButtonClicked()

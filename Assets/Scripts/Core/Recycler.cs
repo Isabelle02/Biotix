@@ -5,7 +5,7 @@ public class Recycler : MonoBehaviour
 {
     [SerializeField] protected RecyclerConfig _recyclerConfig;
 
-    private static Recycler _instance;
+    protected static Recycler _instance;
 
     protected static RecyclerConfig RecyclerConfig => _instance._recyclerConfig;
     
@@ -38,6 +38,7 @@ public class Recycler<T> : Recycler where T : MonoBehaviour
             releasable.Dispose();
         
         obj.gameObject.SetActive(false);
+        obj.transform.SetParent(_instance.transform, false);
         _poolObjects.Push(obj);
     }
         

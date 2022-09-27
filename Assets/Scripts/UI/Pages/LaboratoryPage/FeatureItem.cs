@@ -1,0 +1,94 @@
+﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class FeatureItem : MonoBehaviour, IReleasable
+{
+    [SerializeField] private Text _titleText;
+    [SerializeField] private Text _costText;
+    [SerializeField] private int _costStep;
+    [SerializeField, Range(0, 1)] private float _progressStep = 0.1f;
+    [SerializeField] private Button _buyButton;
+    [SerializeField] private Image _progressImage;
+
+    private string _progressRateKey;
+    private string _costKey;
+
+    public float ProgressRate
+    {
+        get => PlayerPrefs.GetFloat(_progressRateKey, 0);
+        private set
+        {
+            if (value > 1.05f)
+                return;
+            
+            _progressImage.fillAmount = value;
+            Cost += _costStep;
+            PlayerPrefs.SetFloat(_progressRateKey, _progressImage.fillAmount);
+        }
+    }
+
+    public int Cost
+    {
+        get => PlayerPrefs.GetInt(_costKey, 500);
+        private set
+        {
+            _costText.text = value.ToString();
+            PlayerPrefs.SetInt(_costKey, value);
+        }
+    }
+
+    public void Init(string featureName)
+    {
+        _progressRateKey = $"{featureName}ProgressRate";
+        _costKey = $"{featureName}CostKey";
+
+        _titleText.text = featureName;
+        _costText.text = Cost.ToString();
+        _progressImage.fillAmount = ProgressRate;
+        
+        _buyButton.onClick.AddListener(OnBuyButtonClick);
+    }
+
+    private void OnBuyButtonClick()
+    {
+        ProgressRate += _progressStep;
+        foreach (var t in TeamManager.TeamControllers)
+        {
+            if (t is not PlayerController p)
+                continue;
+
+            p.LaboratoryData.Attack += 2 * ProgressRate;
+        }
+    }
+
+    public void Dispose()
+    {
+        _buyButton.onClick.RemoveListener(OnBuyButtonClick);
+    }
+}
+
+public static class FeatureItemName
+{
+    public enum FeatureName
+    {
+        Attack,
+        Defence,
+        Speed,
+        Reproduction,
+        Injection
+    }
+
+    public static string GetString(FeatureName name)
+    {
+        return name switch
+        {
+            FeatureName.Attack => "Attack",
+            FeatureName.Defence => "Defence",
+            FeatureName.Speed => "Speed",
+            FeatureName.Reproduction => "Reproduction",
+            FeatureName.Injection => "Injection",
+            _ => ""
+        };
+    }
+}
