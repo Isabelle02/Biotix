@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Button = UnityEngine.UI.Button;
 
 public class RatingPage : Page
 {
     [SerializeField] private VerticalLayoutGroup _statsList;
     [SerializeField] private Button _backButton;
 
-    private List<LevelStatsView> _levelStatsViews = new();
+    private readonly List<LevelStatsView> _levelStatsViews = new();
 
     protected override void OnOpenStart(ViewParam viewParam)
     {
