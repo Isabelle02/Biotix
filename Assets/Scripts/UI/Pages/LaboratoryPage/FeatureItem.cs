@@ -11,6 +11,8 @@ public class FeatureItem : MonoBehaviour, IReleasable
     [SerializeField] private Button _buyButton;
     [SerializeField] private Image _progressImage;
 
+    private FeatureItemName.FeatureName _featureName;
+    
     private string _progressRateKey;
     private string _costKey;
 
@@ -38,12 +40,14 @@ public class FeatureItem : MonoBehaviour, IReleasable
         }
     }
 
-    public void Init(string featureName)
+    public void Init(FeatureItemName.FeatureName featureName)
     {
+        _featureName = featureName;
+        
         _progressRateKey = $"{featureName}ProgressRate";
         _costKey = $"{featureName}CostKey";
 
-        _titleText.text = featureName;
+        _titleText.text = FeatureItemName.GetString(featureName);
         _costText.text = Cost.ToString();
         _progressImage.fillAmount = ProgressRate;
         
@@ -53,12 +57,24 @@ public class FeatureItem : MonoBehaviour, IReleasable
     private void OnBuyButtonClick()
     {
         ProgressRate += _progressStep;
-        foreach (var t in TeamManager.TeamControllers)
+        
+        switch (_featureName)
         {
-            if (t is not PlayerController p)
-                continue;
-
-            p.LaboratoryData.Attack += 2 * ProgressRate;
+            case FeatureItemName.FeatureName.Attack:
+                PlayerLaboratoryManager.AttackRate += ProgressRate;
+                break;
+            case FeatureItemName.FeatureName.Defence:
+                PlayerLaboratoryManager.DefenceRate += ProgressRate;
+                break;
+            case FeatureItemName.FeatureName.Speed:
+                PlayerLaboratoryManager.SpeedRate += ProgressRate;
+                break;
+            case FeatureItemName.FeatureName.Reproduction:
+                PlayerLaboratoryManager.ReproductionRate += ProgressRate;
+                break;
+            case FeatureItemName.FeatureName.Injection:
+                PlayerLaboratoryManager.AdditionalInjectionRate = ProgressRate;
+                break;
         }
     }
 

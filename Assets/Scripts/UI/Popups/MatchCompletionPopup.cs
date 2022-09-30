@@ -7,6 +7,9 @@ public class MatchCompletionPopup : Popup
     [SerializeField] private Button _restartButton;
     [SerializeField] private Button _mainMenuButton;
     [SerializeField] private Text _resultText;
+    [SerializeField] private Text _timeText;
+    [SerializeField] private Text _newBestTimeText;
+    [SerializeField] private Text _awardText;
     
     protected override void OnOpenStart(ViewParam viewParam)
     {
@@ -29,7 +32,30 @@ public class MatchCompletionPopup : Popup
         _restartButton.onClick.AddListener(OnRestartButtonClicked);
         _mainMenuButton.onClick.AddListener(OnMainMenuButtonClicked);
 
+        var levelPassTime = PageManager.Get<GameplayPage>().LevelPassTime;
+        
+        _timeText.text = $"{levelPassTime.Minute:00} : {levelPassTime.Second:00}";
         _resultText.text = param.IsWin ? "VICTORY" : "DEFEAT";
+        
+        _newBestTimeText.gameObject.SetActive(false);
+
+        if (!param.IsWin)
+            return;
+
+        if (LevelManager.CurrentLevelIndex > LevelManager.LevelStatsMap.Count - 1)
+        {
+            var levelStats = new LevelStats();
+            levelStats.BestTime = levelPassTime;
+            LevelManager.LevelStatsMap.Add(levelStats);
+            _newBestTimeText.gameObject.SetActive(true);
+        }
+        else if (levelPassTime < LevelManager.LevelStatsMap[LevelManager.CurrentLevelIndex].BestTime)
+        {
+            LevelManager.LevelStatsMap[LevelManager.CurrentLevelIndex].BestTime = levelPassTime;
+            _newBestTimeText.gameObject.SetActive(true);
+        }
+
+        LevelManager.SaveLevelStatsMap();
     }
 
     private void OnMainMenuButtonClicked()

@@ -39,7 +39,7 @@ public class MainMenuPage : Page
 
     private void OnRatingButtonClicked()
     {
-        
+        PageManager.Open<RatingPage>();
     }
 
     protected override void OnCloseStart()

@@ -6,7 +6,40 @@ public class PlayerController : TeamController
 
     public PlayerController(int teamId) : base(teamId)
     {
-        LaboratoryData = new PlayerData();
+    }
+
+    public override void Init()
+    {
+        SetAttack(PlayerLaboratoryManager.AttackRate);
+        SetDefence(PlayerLaboratoryManager.DefenceRate);
+        SetSpeed(PlayerLaboratoryManager.SpeedRate);
+        SetReproduction(PlayerLaboratoryManager.ReproductionRate);
+        SetAdditionalInjection(PlayerLaboratoryManager.AdditionalInjectionRate);
+    }
+
+    public override void SetAttack(float rate)
+    {
+        Attack += rate;
+    }
+
+    public override void SetDefence(float rate)
+    {
+        Defence += rate;
+    }
+    
+    public override void SetSpeed(float rate)
+    {
+        Speed += rate;
+    }
+    
+    public override void SetReproduction(float rate)
+    {
+        Reproduction -= rate;
+    }
+    
+    public override void SetAdditionalInjection(float rate)
+    {
+        AdditionalInjection += (int) (rate * 10);
     }
     
     public override bool ActivateNode(NodeEntity node)
@@ -33,7 +66,7 @@ public class PlayerController : TeamController
 
         foreach (var n in _selectedNodes)
         {
-            n.SendUnits(targetNode, LaboratoryData.Attack, LaboratoryData.Speed);
+            n.SendUnits(targetNode, Attack, Speed);
             n.SetLineActive(false);
             n.SetHighlighted(false);
         }

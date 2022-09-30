@@ -13,7 +13,34 @@ public class AiController : TeamController, IUpdatable
 
     public AiController(int teamId) : base(teamId)
     {
-        LaboratoryData = new AiData();
+    }
+
+    public override void Init()
+    {
+        SetAttack(LevelManager.CurrentLevelIndex / 10f);
+        SetDefence(LevelManager.CurrentLevelIndex / 10f);
+        SetSpeed(LevelManager.CurrentLevelIndex / 100f);
+        SetReproduction(LevelManager.CurrentLevelIndex / 10f);
+    }
+
+    public override void SetAttack(float rate)
+    {
+        Attack += rate;
+    }
+
+    public override void SetDefence(float rate)
+    {
+        Defence += rate;
+    }
+    
+    public override void SetSpeed(float rate)
+    {
+        Speed += rate;
+    }
+    
+    public override void SetReproduction(float rate)
+    {
+        Reproduction -= rate;
     }
     
     public void Update(float delta)
@@ -51,7 +78,7 @@ public class AiController : TeamController, IUpdatable
 
         foreach (var n in _selectedNodes)
         {
-            n.SendUnits(targetNode, LaboratoryData.Attack, LaboratoryData.Speed);
+            n.SendUnits(targetNode, Attack, Speed);
         }
         
         _selectedNodes.Clear();

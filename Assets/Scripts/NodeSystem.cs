@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 public class NodeSystem : BaseSystem<NodeEntity>
 {
-    public readonly List<NodeEntity> Nodes = new();
-
     protected override void AddActor(NodeEntity actor)
     {
         var nc = TeamManager.TeamControllers.Find(nc => nc.TeamId == actor.TeamId);
@@ -17,6 +14,8 @@ public class NodeSystem : BaseSystem<NodeEntity>
                 1 => new PlayerController(1),
                 _ => new AiController(actor.TeamId)
             };
+            
+            nc.Init();
 
             if (nc is IUpdatable u)
                 WorldManager.CurrentWorld.GetSystem<UpdateSystem>().AddUpdatable(u);
@@ -24,21 +23,29 @@ public class NodeSystem : BaseSystem<NodeEntity>
             TeamManager.TeamControllers.Add(nc);
         }
 
-        actor.UnitCount += nc.LaboratoryData.AdditionalInjection;
-        actor.UnitReproductionTimeScale = nc.LaboratoryData.Reproduction;
+        actor.UnitCount += nc.AdditionalInjection;
+        actor.UnitReproductionTimeScale = nc.Reproduction;
         
         nc.Nodes.Add(actor);
-        Nodes.Add(actor);
     }
 
     protected override void RemoveActor(NodeEntity actor)
     {
-        foreach (var nc in TeamManager.TeamControllers)
+        for (var i = 0; i < TeamManager.TeamControllers.Count; i++)
+        {
+            var nc = TeamManager.TeamControllers[i];
             if (nc.Nodes.Contains(actor))
             {
                 nc.DeactivateNode(actor);
                 nc.Nodes.Remove(actor);
             }
+
+            if (nc.Nodes.Count == 0)
+            {
+                TeamManager.TeamControllers.RemoveAt(i);
+                i--;
+            }
+        }
     }
 
     public void GetHit(NodeEntity node, UnitEntity unit)
@@ -50,7 +57,7 @@ public class NodeSystem : BaseSystem<NodeEntity>
         else
         {
             var nc = TeamManager.TeamControllers.Find(nc => nc.Nodes.Contains(node));
-            var defence = nc.LaboratoryData.Defence;
+            var defence = nc.Defence;
             var armyForce = defence * node.UnitCount - unit.Attack;
             var unitCount = (int) (armyForce / defence);
             
@@ -75,7 +82,6 @@ public class NodeSystem : BaseSystem<NodeEntity>
         var player = TeamManager.TeamControllers.Find(nc => nc.TeamId == 1);
         if (player.Nodes.Count == 0)
         {
-            DeactivateControllers();
             PopupManager.Open<MatchCompletionPopup>(new MatchCompletionPopup.Param(false));
         }
         else
@@ -83,7 +89,6 @@ public class NodeSystem : BaseSystem<NodeEntity>
             if (TeamManager.TeamControllers.All(nc => nc.TeamId is 0 or 1 && nc.Nodes.Count > 0 ||
                                                       nc.TeamId > 1 && nc.Nodes.Count == 0))
             {
-                DeactivateControllers();
                 PopupManager.Open<MatchCompletionPopup>(new MatchCompletionPopup.Param(true));
             }
         }
@@ -132,11 +137,5 @@ public class NodeSystem : BaseSystem<NodeEntity>
             return;
         
         nc.DeactivateNodes();
-    }
-
-    private void DeactivateControllers()
-    {
-        foreach (var nc in TeamManager.TeamControllers) 
-            nc.DeactivateNodes();
     }
 }

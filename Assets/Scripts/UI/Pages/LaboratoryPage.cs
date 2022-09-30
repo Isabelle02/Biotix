@@ -8,7 +8,7 @@ public class LaboratoryPage : Page
     [SerializeField] private VerticalLayoutGroup _featuresList;
     [SerializeField] private Button _backButton;
 
-    private List<FeatureItem> _featureItems = new();
+    private readonly List<FeatureItem> _featureItems = new();
 
     protected override void OnOpenStart(ViewParam viewParam)
     {
@@ -16,7 +16,7 @@ public class LaboratoryPage : Page
         {
             var item = Recycler<FeatureItem>.Get();
             item.transform.SetParent(_featuresList.transform, false);
-            item.Init(FeatureItemName.GetString((FeatureItemName.FeatureName) n));
+            item.Init((FeatureItemName.FeatureName) n);
             _featureItems.Add(item);
         }
         

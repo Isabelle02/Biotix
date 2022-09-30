@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class GameplayPage : Page
@@ -6,6 +7,8 @@ public class GameplayPage : Page
     [SerializeField] private Button _pauseButton;
     
     private Gameplay _gameplay;
+
+    public DateTime LevelPassTime => _gameplay.LevelPassTime;
     
     protected override void OnOpenStart(ViewParam viewParam)
     {

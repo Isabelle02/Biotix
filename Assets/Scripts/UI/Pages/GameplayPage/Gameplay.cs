@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Gameplay : IUpdatable
 {
@@ -6,6 +7,10 @@ public class Gameplay : IUpdatable
     private bool _isDragged;
 
     private NodeSystem _nodeSystem;
+
+    private TimeController _timeController;
+
+    public DateTime LevelPassTime => _timeController.PassTime;
 
     public async void Init(int levelIndex)
     {
@@ -23,8 +28,11 @@ public class Gameplay : IUpdatable
 
         WorldManager.CurrentWorld = new BaseWorld();
         WorldManager.CurrentWorld.Activate(worldData, updateSystem, unitSystem, _nodeSystem);
+
+        _timeController = new TimeController();
         
         updateSystem.AddUpdatable(this);
+        updateSystem.AddUpdatable(_timeController);
 
         await updateSystem.Update();
     }
