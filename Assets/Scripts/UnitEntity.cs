@@ -20,7 +20,7 @@ public class UnitEntity : BaseEntity<UnitData>, IActor
         _unitView = Recycler<UnitView>.Get();
         _unitView.transform.SetParent(PageManager.Get<GameplayPage>().transform, false);
         _unitView.transform.position = data.Position;
-        _unitView.SetSprite(LevelManager.LevelsConfig.TeamSprites[data.TeamId]);
+        _unitView.SetSprite(LevelManager.TeamSprites[data.TeamId]);
         _unitView.UnitEntity = this;
 
         _endPosition = data.EndPosition;

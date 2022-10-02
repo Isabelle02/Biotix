@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class LaboratoryPage : Page
 {
     [SerializeField] private VerticalLayoutGroup _featuresList;
+    [SerializeField] private Image _teamImage;
+    [SerializeField] private Button _teamSpriteButton;
     [SerializeField] private Button _backButton;
 
     private readonly List<FeatureItem> _featureItems = new();
@@ -21,8 +23,21 @@ public class LaboratoryPage : Page
         }
         
         _featuresList.SetLayoutVertical();
+
+        _teamImage.sprite = LevelManager.TeamSprites[1];
         
+        _teamSpriteButton.onClick.AddListener(OnTeamSpriteButtonClick);
         _backButton.onClick.AddListener(OnBackButtonClick);
+    }
+
+    private void OnTeamSpriteButtonClick()
+    {
+        if (LevelManager.PlayerSpriteIndex < LevelManager.TeamSprites.Count - 1)
+            LevelManager.PlayerSpriteIndex++;
+        else
+            LevelManager.PlayerSpriteIndex = 1;
+
+        _teamImage.sprite = LevelManager.TeamSprites[1];
     }
 
     private void OnBackButtonClick()
@@ -37,6 +52,7 @@ public class LaboratoryPage : Page
             Recycler<FeatureItem>.Release(f);
         }
         
+        _teamSpriteButton.onClick.RemoveListener(OnTeamSpriteButtonClick);
         _backButton.onClick.RemoveListener(OnBackButtonClick);
     }
 }

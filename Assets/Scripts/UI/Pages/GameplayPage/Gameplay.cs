@@ -15,7 +15,7 @@ public class Gameplay : IUpdatable
     public async void Init(int levelIndex)
     {
         var worldData = new WorldData();
-        var lvlData = LevelManager.LevelsConfig.LevelsData[levelIndex];
+        var lvlData = LevelManager.GetLevel(levelIndex);
         
         foreach (var t in lvlData.NodesData)
         {

@@ -56,6 +56,9 @@ public class FeatureItem : MonoBehaviour, IReleasable
 
     private void OnBuyButtonClick()
     {
+        if (!FundsManager.MakeTransaction(-Cost))
+            return;
+        
         ProgressRate += _progressStep;
         
         switch (_featureName)

@@ -18,7 +18,7 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
         set
         {
             _teamId = value;
-            _nodeView.SetSprite(LevelManager.LevelsConfig.TeamSprites[value]);
+            _nodeView.SetSprite(LevelManager.TeamSprites[value]);
             var system = WorldManager.CurrentWorld.GetSystem<NodeSystem>();
             system.UpdateNodes(this);
         }
@@ -41,7 +41,7 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
         _nodeView = Recycler<NodeView>.Get();
         _nodeView.transform.SetParent(PageManager.Get<GameplayPage>().transform, false);
         _nodeView.transform.position = data.Position - Vector3.forward * 2;
-        _nodeView.SetSprite(LevelManager.LevelsConfig.TeamSprites[data.TeamId]);
+        _nodeView.SetSprite(LevelManager.TeamSprites[data.TeamId]);
         _nodeView.SetRadius(data.Radius);
         _nodeView.SetHighlighted(false);
         _nodeView.NodeEntity = this;

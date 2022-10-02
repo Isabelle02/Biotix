@@ -26,7 +26,7 @@ public class MatchCompletionPopup : Popup
             LevelManager.PassedLevelsCount++;
 
         _nextButton.gameObject.SetActive(param.IsWin &&
-            LevelManager.CurrentLevelIndex != LevelManager.LevelsConfig.LevelsData.Count - 1);
+            LevelManager.CurrentLevelIndex != LevelManager.LevelsCount - 1);
         
         _nextButton.onClick.AddListener(OnNextButtonClicked);
         _restartButton.onClick.AddListener(OnRestartButtonClicked);

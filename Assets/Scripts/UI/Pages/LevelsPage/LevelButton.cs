@@ -46,7 +46,7 @@ public class LevelButton : Button
 
     public void Init()
     {
-        IsComingSoon = LevelManager.LevelsConfig.LevelsData.Count < _levelNumber;
+        IsComingSoon = LevelManager.LevelsCount < _levelNumber;
         
         _levelNumberText.text = _levelNumber.ToString();
         onClick.AddListener(OnClick);
