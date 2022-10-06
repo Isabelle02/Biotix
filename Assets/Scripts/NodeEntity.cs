@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 
 public class NodeEntity : BaseEntity<NodeData>, IUpdatable
 {
@@ -19,8 +20,6 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
         {
             _teamId = value;
             _nodeView.SetSprite(LevelManager.TeamSprites[value]);
-            var system = WorldManager.CurrentWorld.GetSystem<NodeSystem>();
-            system.UpdateNodes(this);
         }
     }
 
@@ -93,12 +92,13 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
             var data = new UnitData();
             var posInCircle = Random.insideUnitCircle * Data.Radius / 100;
             data.Position = new Vector3(basePos.x + posInCircle.x, basePos.y + posInCircle.y, basePos.z + 1);
-            data.EndPosition = data.Position + (target._nodeView.transform.position - basePos);
+            data.EndPosition = target._nodeView.transform.position + Vector3.forward;
             data.TeamId = TeamId;
             data.Attack = attack;
             data.Speed = speed;
             var unit = WorldManager.CurrentWorld.CreateNewObject(data) as UnitEntity;
             unit?.Run(target);
+            _nodeView.transform.DOMove(_nodeView.transform.position + (data.EndPosition - data.Position) * 0.005f, 1f);
         }
     }
 

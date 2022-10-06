@@ -95,7 +95,7 @@ public class AiController : TeamController, IUpdatable
         }
         
         var main = _selectedNodes[Random.Range(0, count)];
-        var nearest = FindNearest(main, 100);
+        var nearest = FindNearest(main, Random.Range(1, 10));
         _targetNode = nearest[Random.Range(0, nearest.Count)];
     }
 

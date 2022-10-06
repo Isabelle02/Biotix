@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 public class NodeSystem : BaseSystem<NodeEntity>
@@ -57,20 +58,21 @@ public class NodeSystem : BaseSystem<NodeEntity>
         else
         {
             var nc = TeamManager.TeamControllers.Find(nc => nc.Nodes.Contains(node));
-            var defence = nc.Defence;
-            var armyForce = defence * node.UnitCount - unit.Attack;
-            var unitCount = (int) (armyForce / defence);
+            var armyForce = nc.Defence * node.UnitCount - unit.Attack;
+            var unitCount = Mathf.RoundToInt(armyForce / nc.Defence);
             
             if (unitCount == 0)
                 node.TeamId = 0;
             else if (unitCount < 0)
                 node.TeamId = unit.TeamId;
-
-            node.UnitCount = Mathf.Abs(unitCount);
+            
+            node.UnitCount = Math.Abs(unitCount);
+            
+            UpdateNodes(node);
         }
     }
-    
-    public void UpdateNodes(NodeEntity node)
+
+    private void UpdateNodes(NodeEntity node)
     {
         var owner = TeamManager.TeamControllers.Find(nc => nc.Nodes.Contains(node));
         owner.DeactivateNode(node);
