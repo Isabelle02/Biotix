@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class PlayerLaboratoryManager
+public static class PlayerManager
 {
     private const string AttackKey = "PlayerAttack";
     private const string DefenceKey = "PlayerDefence";

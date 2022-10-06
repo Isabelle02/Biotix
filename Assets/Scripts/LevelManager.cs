@@ -55,7 +55,44 @@ public class LevelManager : MonoBehaviour
         return _levelsConfig.LevelsData[index];
     }
 
-    public static void SaveLevelStatsMap()
+    public static void CompleteLevel(bool isWin)
+    {
+        var levelPassTime = PageManager.Get<GameplayPage>().LevelPassTime;
+        var levelPassTimeInSeconds = (int) levelPassTime.TimeOfDay.TotalSeconds;
+        var reward = 0;
+        
+        if (!isWin)
+        {
+            reward = FundsManager.CalculateReward(CurrentLevelIndex + 1, levelPassTimeInSeconds, false, false, false);
+            PopupManager.Open<MatchCompletionPopup>(new MatchCompletionPopup.Param(false, false, levelPassTime,
+                reward));
+            return;
+        }
+
+        var isFirstWin = CurrentLevelIndex > LevelStatsMap.Count - 1;
+        var isNewBestTime = !isFirstWin && levelPassTime < LevelStatsMap[CurrentLevelIndex].BestTime;
+        
+        if (isFirstWin)
+        {
+            var levelStats = new LevelStats { BestTime = levelPassTime };
+            LevelStatsMap.Add(levelStats);
+        }
+        else if (isNewBestTime)
+        {
+            LevelStatsMap[CurrentLevelIndex].BestTime = levelPassTime;
+        }
+        
+        SaveLevelStatsMap();
+
+        reward = FundsManager.CalculateReward(CurrentLevelIndex + 1, levelPassTimeInSeconds, true,
+            isFirstWin, isFirstWin || isNewBestTime);
+        PopupManager.Open<MatchCompletionPopup>(new MatchCompletionPopup.Param(true, isFirstWin || isNewBestTime,
+            levelPassTime, reward));
+
+        FundsManager.MakeTransaction(reward);
+    }
+
+    private static void SaveLevelStatsMap()
     {
         Storage.Save(_levelStatsMapFIleName, LevelStatsMap);
     }

@@ -64,19 +64,19 @@ public class FeatureItem : MonoBehaviour, IReleasable
         switch (_featureName)
         {
             case FeatureItemName.FeatureName.Attack:
-                PlayerLaboratoryManager.AttackRate += ProgressRate;
+                PlayerManager.AttackRate += ProgressRate;
                 break;
             case FeatureItemName.FeatureName.Defence:
-                PlayerLaboratoryManager.DefenceRate += ProgressRate;
+                PlayerManager.DefenceRate += ProgressRate;
                 break;
             case FeatureItemName.FeatureName.Speed:
-                PlayerLaboratoryManager.SpeedRate += ProgressRate;
+                PlayerManager.SpeedRate += ProgressRate;
                 break;
             case FeatureItemName.FeatureName.Reproduction:
-                PlayerLaboratoryManager.ReproductionRate += ProgressRate;
+                PlayerManager.ReproductionRate += ProgressRate;
                 break;
             case FeatureItemName.FeatureName.Injection:
-                PlayerLaboratoryManager.AdditionalInjectionRate = ProgressRate;
+                PlayerManager.AdditionalInjectionRate = ProgressRate;
                 break;
         }
     }

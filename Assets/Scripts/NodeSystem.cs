@@ -82,14 +82,14 @@ public class NodeSystem : BaseSystem<NodeEntity>
         var player = TeamManager.TeamControllers.Find(nc => nc.TeamId == 1);
         if (player.Nodes.Count == 0)
         {
-            PopupManager.Open<MatchCompletionPopup>(new MatchCompletionPopup.Param(false));
+            LevelManager.CompleteLevel(false);
         }
         else
         {
             if (TeamManager.TeamControllers.All(nc => nc.TeamId is 0 or 1 && nc.Nodes.Count > 0 ||
                                                       nc.TeamId > 1 && nc.Nodes.Count == 0))
             {
-                PopupManager.Open<MatchCompletionPopup>(new MatchCompletionPopup.Param(true));
+                LevelManager.CompleteLevel(true);
             }
         }
     }

@@ -10,11 +10,11 @@ public class PlayerController : TeamController
 
     public override void Init()
     {
-        SetAttack(PlayerLaboratoryManager.AttackRate);
-        SetDefence(PlayerLaboratoryManager.DefenceRate);
-        SetSpeed(PlayerLaboratoryManager.SpeedRate);
-        SetReproduction(PlayerLaboratoryManager.ReproductionRate);
-        SetAdditionalInjection(PlayerLaboratoryManager.AdditionalInjectionRate);
+        SetAttack(PlayerManager.AttackRate);
+        SetDefence(PlayerManager.DefenceRate);
+        SetSpeed(PlayerManager.SpeedRate);
+        SetReproduction(PlayerManager.ReproductionRate);
+        SetAdditionalInjection(PlayerManager.AdditionalInjectionRate);
     }
 
     public override void SetAttack(float rate)

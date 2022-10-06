@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class LaboratoryPage : Page
 {
+    [SerializeField] private Text _fundsText;
     [SerializeField] private VerticalLayoutGroup _featuresList;
     [SerializeField] private Image _teamImage;
     [SerializeField] private Button _teamSpriteButton;
@@ -14,6 +15,8 @@ public class LaboratoryPage : Page
 
     protected override void OnOpenStart(ViewParam viewParam)
     {
+        _fundsText.text = FundsManager.Funds.ToString();
+        
         foreach (var n in Enum.GetValues(typeof(FeatureItemName.FeatureName)))
         {
             var item = Recycler<FeatureItem>.Get();

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class MatchCompletionPopup : Popup
@@ -9,7 +10,7 @@ public class MatchCompletionPopup : Popup
     [SerializeField] private Text _resultText;
     [SerializeField] private Text _timeText;
     [SerializeField] private Text _newBestTimeText;
-    [SerializeField] private Text _awardText;
+    [SerializeField] private Text _rewardText;
     
     protected override void OnOpenStart(ViewParam viewParam)
     {
@@ -31,31 +32,12 @@ public class MatchCompletionPopup : Popup
         _nextButton.onClick.AddListener(OnNextButtonClicked);
         _restartButton.onClick.AddListener(OnRestartButtonClicked);
         _mainMenuButton.onClick.AddListener(OnMainMenuButtonClicked);
-
-        var levelPassTime = PageManager.Get<GameplayPage>().LevelPassTime;
         
-        _timeText.text = $"{levelPassTime.Minute:00} : {levelPassTime.Second:00}";
+        _timeText.text = $"{param.LevelPassTime.Minute:00} : {param.LevelPassTime.Second:00}";
         _resultText.text = param.IsWin ? "VICTORY" : "DEFEAT";
-        
-        _newBestTimeText.gameObject.SetActive(false);
+        _rewardText.text = param.Reward.ToString("+0;-#");
 
-        if (!param.IsWin)
-            return;
-
-        if (LevelManager.CurrentLevelIndex > LevelManager.LevelStatsMap.Count - 1)
-        {
-            var levelStats = new LevelStats();
-            levelStats.BestTime = levelPassTime;
-            LevelManager.LevelStatsMap.Add(levelStats);
-            _newBestTimeText.gameObject.SetActive(true);
-        }
-        else if (levelPassTime < LevelManager.LevelStatsMap[LevelManager.CurrentLevelIndex].BestTime)
-        {
-            LevelManager.LevelStatsMap[LevelManager.CurrentLevelIndex].BestTime = levelPassTime;
-            _newBestTimeText.gameObject.SetActive(true);
-        }
-
-        LevelManager.SaveLevelStatsMap();
+        _newBestTimeText.gameObject.SetActive(param.IsNewRecord);
     }
 
     private void OnMainMenuButtonClicked()
@@ -73,7 +55,7 @@ public class MatchCompletionPopup : Popup
     private void OnNextButtonClicked()
     {
         PopupManager.CloseLast();
-        PageManager.Open<GameplayPage>(new GameplayPage.Param(LevelManager.CurrentLevelIndex + 1));
+        PageManager.Open<GameplayPage>(new GameplayPage.Param(++LevelManager.CurrentLevelIndex));
     }
 
     protected override void OnCloseStart()
@@ -86,10 +68,16 @@ public class MatchCompletionPopup : Popup
     public class Param : ViewParam
     {
         public readonly bool IsWin;
+        public readonly bool IsNewRecord;
+        public readonly DateTime LevelPassTime;
+        public readonly int Reward;
 
-        public Param(bool isWin)
+        public Param(bool isWin, bool isNewRecord, DateTime levelPassTime, int reward)
         {
             IsWin = isWin;
+            IsNewRecord = isNewRecord;
+            LevelPassTime = levelPassTime;
+            Reward = reward;
         }
     }
 }

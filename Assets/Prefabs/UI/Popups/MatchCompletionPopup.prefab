@@ -290,7 +290,7 @@ GameObject:
   - component: {fileID: 2383638782351857150}
   - component: {fileID: 9136805063322234316}
   m_Layer: 5
-  m_Name: AwardText
+  m_Name: RewardText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1244,4 +1244,4 @@ MonoBehaviour:
   _resultText: {fileID: 7251379269645517806}
   _timeText: {fileID: 8247646119093448781}
   _newBestTimeText: {fileID: 1752541712522821211}
-  _awardText: {fileID: 9136805063322234316}
+  _rewardText: {fileID: 9136805063322234316}
