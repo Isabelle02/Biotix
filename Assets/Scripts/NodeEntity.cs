@@ -55,6 +55,21 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
         _nodeView.SetHighlighted(isHighlighted);
     }
 
+    public void PlayTargetHighlighting()
+    {
+        _nodeView.PlayTargetHighlighting();
+    }
+
+    public void PlayHighlighting()
+    {
+        _nodeView.PlayHighlighting();
+    }
+
+    public void StopHighlighting()
+    {
+        _nodeView.StopHighlighting();
+    }
+
     public void Update(float delta)
     {
         if (TeamId == 0)

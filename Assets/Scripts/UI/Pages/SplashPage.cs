@@ -11,7 +11,7 @@ public class SplashPage : Page
     {
         SceneHandler.SceneLoaded += OnSceneLoaded;
         _biohazardImage.SetAlpha(Constants.Transparent);
-        _biohazardImage.DoFade(Constants.Opaque, _fadingAnimDuration).OnComplete(() => SceneHandler.Load("Main"));
+        _biohazardImage.DOFade(Constants.Opaque, _fadingAnimDuration).OnComplete(() => SceneHandler.Load("Main"));
     }
 
     private void OnSceneLoaded()

@@ -38,9 +38,9 @@ public class FadeGroup : MonoBehaviour
             var image = _images[i];
 
             if (i == 0)
-                sequence.Append(image.DoFade(alpha, duration));
+                sequence.Append(image.DOFade(alpha, duration));
             else
-                sequence.Join(image.DoFade(alpha, duration));
+                sequence.Join(image.DOFade(alpha, duration));
         }
 
         for (var i = 0; i < _texts.Count; i++)
@@ -48,9 +48,9 @@ public class FadeGroup : MonoBehaviour
             var t = _texts[i];
 
             if (i == 0 && _images.Count == 0)
-                sequence.Append(t.DoFade(alpha, duration));
+                sequence.Append(t.DOFade(alpha, duration));
             else
-                sequence.Join(t.DoFade(alpha, duration));
+                sequence.Join(t.DOFade(alpha, duration));
         }
 
         for (var i = 0; i < _fadeGroups.Count; i++)

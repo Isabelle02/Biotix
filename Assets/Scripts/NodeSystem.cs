@@ -28,6 +28,9 @@ public class NodeSystem : BaseSystem<NodeEntity>
         actor.UnitReproductionTimeScale = nc.Reproduction;
         
         nc.Nodes.Add(actor);
+
+        if (nc is PlayerController) 
+            actor.PlayHighlighting();
     }
 
     protected override void RemoveActor(NodeEntity actor)

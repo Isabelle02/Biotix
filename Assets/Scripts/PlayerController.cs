@@ -4,6 +4,8 @@ public class PlayerController : TeamController
 {
     private readonly List<NodeEntity> _selectedNodes = new();
 
+    private bool _isFirstNodeActivation = true;
+
     public PlayerController(int teamId) : base(teamId)
     {
     }
@@ -50,6 +52,14 @@ public class PlayerController : TeamController
         if (_selectedNodes.Contains(node))
             return false;
 
+        if (_isFirstNodeActivation)
+        {
+            foreach (var n in Nodes)
+                n.StopHighlighting();
+
+            _isFirstNodeActivation = false;
+        }
+
         node.SetHighlighted(true);
         _selectedNodes.Add(node);
         return true;
@@ -63,6 +73,8 @@ public class PlayerController : TeamController
             targetNode.SetHighlighted(false);
             _selectedNodes.Remove(targetNode);
         }
+        else
+            targetNode.PlayTargetHighlighting();
 
         foreach (var n in _selectedNodes)
         {
