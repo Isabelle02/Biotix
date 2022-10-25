@@ -8,10 +8,20 @@ public static class Storage
         ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
         TypeNameHandling = TypeNameHandling.All
     };
+
+    public static string SerializeObject<T>(T obj)
+    {
+        return JsonConvert.SerializeObject(obj, Settings);
+    }
+
+    public static T DeserializeObject<T>(string str)
+    {
+        return JsonConvert.DeserializeObject<T>(str, Settings);
+    }
     
     public static void Save<T>(string filePath, T records)
     {
-        var j = JsonConvert.SerializeObject(records, Settings);
+        var j = SerializeObject(records);
         File.WriteAllText(filePath, j);
     }
 
@@ -21,6 +31,6 @@ public static class Storage
             return new T();
         
         var str = File.ReadAllText(filePath);
-        return JsonConvert.DeserializeObject<T>(str, Settings);
+        return DeserializeObject<T>(str);
     }
 }

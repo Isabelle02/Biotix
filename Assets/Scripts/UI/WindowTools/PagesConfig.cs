@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PagesConfig", menuName = "Configs/PagesConfig")]
 public class PagesConfig : ScriptableObject
 {
-    [SerializeField] private List<Page> _pagePrefabs;
+    [SerializeField] private List<GameObject> _pagePrefabs;
 
-    public List<Page> PagePrefabs => _pagePrefabs;
+    public List<GameObject> PagePrefabs => _pagePrefabs;
 }

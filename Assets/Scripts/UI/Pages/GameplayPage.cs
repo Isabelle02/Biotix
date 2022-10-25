@@ -1,4 +1,5 @@
 ﻿using System;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +10,8 @@ public class GameplayPage : Page
     private Gameplay _gameplay;
 
     public DateTime LevelPassTime => _gameplay.LevelPassTime;
-    
-    protected override void OnOpenStart(ViewParam viewParam)
+
+    public override void OnOpenStart(IPage.ViewParam viewParam)
     {
         if (viewParam is not Param param)
         {
@@ -20,8 +21,9 @@ public class GameplayPage : Page
         
         _pauseButton.onClick.AddListener(OnPauseButtonClicked);
 
+        var lvlData = LevelManager.GetLevel(param.LevelIndex);
         _gameplay = new Gameplay();
-        _gameplay.Init(param.LevelIndex);
+        _gameplay.Init(lvlData);
     }
 
     private void OnPauseButtonClicked()
@@ -39,7 +41,7 @@ public class GameplayPage : Page
         _pauseButton.gameObject.SetActive(true);
     }
 
-    protected override void OnCloseStart()
+    public override void OnCloseStart()
     {
         _pauseButton.onClick.RemoveListener(OnPauseButtonClicked);
 
@@ -48,7 +50,7 @@ public class GameplayPage : Page
         updateSystem.ClearUpdatables();
     }
 
-    public class Param : ViewParam
+    public class Param : IPage.ViewParam
     {
         public readonly int LevelIndex;
 

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,10 +12,15 @@ public class PausePopup : Popup
     
     protected override void OnOpenStart(ViewParam viewParam)
     {
-        WorldManager.CurrentWorld.GetSystem<UpdateSystem>()?.SetPause(true);
-        WorldManager.CurrentWorld.GetSystem<UnitSystem>()?.SetPause(true);
-        
+        if (!LevelManager.IsNetwork)
+        {
+            WorldManager.CurrentWorld.GetSystem<UpdateSystem>()?.SetPause(true);
+            WorldManager.CurrentWorld.GetSystem<UnitSystem>()?.SetPause(true);
+        }
+
         _soundToggle.isOn = !SoundManager.IsOn;
+        
+        _restartButton.gameObject.SetActive(!LevelManager.IsNetwork);
         
         _playButton.onClick.AddListener(OnPlayButtonClicked);
         _restartButton.onClick.AddListener(OnRestartButtonClicked);
@@ -35,6 +41,14 @@ public class PausePopup : Popup
 
     private void OnMainMenuButtonClicked()
     {
+        if (LevelManager.IsNetwork)
+        {
+            PhotonNetwork.LeaveRoom();
+            while (PhotonNetwork.InRoom)
+            {
+            }
+        }
+        
         PopupManager.CloseLast();
         PageManager.Open<MainMenuPage>();
     }
@@ -53,8 +67,11 @@ public class PausePopup : Popup
         _restartButton.onClick.RemoveListener(OnRestartButtonClicked);
         _mainMenuButton.onClick.RemoveListener(OnMainMenuButtonClicked);
         _soundToggle.onValueChanged.RemoveListener(OnSoundCheckBoxValueChanged);
-        
-        WorldManager.CurrentWorld.GetSystem<UpdateSystem>()?.SetPause(false);
-        WorldManager.CurrentWorld.GetSystem<UnitSystem>()?.SetPause(false);
+
+        if (!LevelManager.IsNetwork)
+        {
+            WorldManager.CurrentWorld.GetSystem<UpdateSystem>()?.SetPause(false);
+            WorldManager.CurrentWorld.GetSystem<UnitSystem>()?.SetPause(false);
+        }
     }
 }

@@ -5,7 +5,7 @@
 
 public abstract class BaseEntity<T> : BaseEntity where T : BaseData
 {
-    protected T Data;
+    public T Data;
 
     protected BaseEntity(T data)
     {

@@ -40,4 +40,15 @@ public static class FundsManager
 
         return reward;
     }
+
+    public static int CalculateNetworkReward(int playerCount, int levelCompletionTime, bool isWin)
+    {
+        var reward = 1;
+        if (!isWin) 
+            return reward;
+
+        reward = Math.Clamp(playerCount * 100 / levelCompletionTime, 10 * playerCount, 100 * playerCount);
+
+        return reward;
+    }
 }

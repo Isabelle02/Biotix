@@ -5,7 +5,7 @@ public class SettingsPage : Page
 {
     [SerializeField] private Button _closeButton;
     
-    protected override void OnOpenStart(ViewParam viewParam)
+    public override void OnOpenStart(IPage.ViewParam viewParam)
     {
         _closeButton.onClick.AddListener(OnCLoseButtonClicked);
     }
@@ -15,7 +15,7 @@ public class SettingsPage : Page
         PageManager.Open<MainMenuPage>();
     }
 
-    protected override void OnCloseStart()
+    public override void OnCloseStart()
     {
         _closeButton.onClick.RemoveListener(OnCLoseButtonClicked);
     }

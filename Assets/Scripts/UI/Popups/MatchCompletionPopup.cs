@@ -26,7 +26,7 @@ public class MatchCompletionPopup : Popup
         if (param.IsWin && LevelManager.CurrentLevelIndex == LevelManager.PassedLevelsCount)
             LevelManager.PassedLevelsCount++;
 
-        _nextButton.gameObject.SetActive(param.IsWin &&
+        _nextButton.gameObject.SetActive(!LevelManager.IsNetwork && param.IsWin &&
             LevelManager.CurrentLevelIndex != LevelManager.LevelsCount - 1);
         
         _nextButton.onClick.AddListener(OnNextButtonClicked);
@@ -48,8 +48,16 @@ public class MatchCompletionPopup : Popup
 
     private void OnRestartButtonClicked()
     {
-        PopupManager.CloseLast();
-        PageManager.Open<GameplayPage>(new GameplayPage.Param(LevelManager.CurrentLevelIndex));
+        if (LevelManager.IsNetwork)
+        {
+            PopupManager.CloseLast();
+            PageManager.Open<NetworkPlayingConnectionPage>();
+        }
+        else
+        {
+            PopupManager.CloseLast();
+            PageManager.Open<GameplayPage>(new GameplayPage.Param(LevelManager.CurrentLevelIndex));
+        }
     }
 
     private void OnNextButtonClicked()

@@ -1,5 +1,8 @@
-﻿using DG.Tweening;
+﻿using System;
+using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class NodeEntity : BaseEntity<NodeData>, IUpdatable
 {
@@ -12,12 +15,19 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
     
     private float _unitReproductionPassTime;
     public float UnitReproductionTimeScale;
+
+    public event Action<int, List<UnitData>, int> UnitsSent;
+
+    public int Id;
     
     public int TeamId
     {
         get => _teamId;
         set
         {
+            if (_teamId == value)
+                return;
+            
             _teamId = value;
             _nodeView.SetSprite(LevelManager.TeamSprites[value]);
         }
@@ -28,6 +38,9 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
         get => _unitCount;
         set
         {
+            if (_unitCount == value)
+                return;
+            
             _unitCount = value;
             _nodeView.SetUnitCountText(value.ToString());
         }
@@ -38,7 +51,7 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
     public NodeEntity(NodeData data) : base(data)
     {
         _nodeView = Recycler<NodeView>.Get();
-        _nodeView.transform.SetParent(PageManager.Get<GameplayPage>().transform, false);
+        _nodeView.transform.SetParent(PageManager.Transform, false);
         _nodeView.transform.position = data.Position - Vector3.forward * 2;
         _nodeView.SetSprite(LevelManager.TeamSprites[data.TeamId]);
         _nodeView.SetRadius(data.Radius);
@@ -48,6 +61,13 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
         _teamId = data.TeamId;
         _maxUnitCount = data.MaxUnitCount;
         UnitCount = data.Injection;
+
+        if (LevelManager.IsNetwork)
+        {
+            UnitsSent += LevelManager.PlayerController.OnUnitsSent;
+        }
+        else
+            UnitsSent += (_, units, target) => SendUnits(units, target);
     }
 
     public void SetHighlighted(bool isHighlighted)
@@ -100,8 +120,8 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
     public void SendUnits(NodeEntity target, float attack, float speed)
     {
         var unitsToSend = UnitCount - UnitCount / 2;
-        UnitCount /= 2;
         var basePos = _nodeView.transform.position;
+        var units = new List<UnitData>();
         for (var i = 0; i < unitsToSend; i++)
         {
             var data = new UnitData();
@@ -111,14 +131,27 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
             data.TeamId = TeamId;
             data.Attack = attack;
             data.Speed = speed;
-            var unit = WorldManager.CurrentWorld.CreateNewObject(data) as UnitEntity;
-            unit?.Run(target);
-            _nodeView.transform.DOMove(_nodeView.transform.position + (data.EndPosition - data.Position) * 0.005f, 1f);
+            units.Add(data);
+        }
+        
+        UnitsSent?.Invoke(Id, units, target.Id);
+    }
+
+    public void SendUnits(List<UnitData> units, int targetId)
+    {
+        UnitCount /= 2;
+        
+        foreach (var u in units)
+        {
+            var unit = WorldManager.CurrentWorld.CreateNewObject(u) as UnitEntity;
+            unit?.Run(targetId);
+            _nodeView.transform.DOMove(_nodeView.transform.position + (u.EndPosition - u.Position) * 0.005f, 1f);
         }
     }
 
     public override void Dispose()
     {
-        Recycler<NodeView>.Release(_nodeView);
+        UnitsSent = null;
+        Recycler<NodeView>.Release(_nodeView.gameObject.GetComponent<NodeView>());
     }
 }

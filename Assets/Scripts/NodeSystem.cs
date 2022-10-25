@@ -1,20 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class NodeSystem : BaseSystem<NodeEntity>
 {
+    private int _lastId;
+    private Dictionary<int, NodeEntity> _nodes = new();
+
     protected override void AddActor(NodeEntity actor)
     {
+        _nodes.Add(_lastId, actor);
+        actor.Id = _lastId;
+        _lastId++;
+        
         var nc = TeamManager.TeamControllers.Find(nc => nc.TeamId == actor.TeamId);
         if (nc == null)
         {
-            nc = actor.TeamId switch
+            if (LevelManager.IsNetwork)
             {
-                0 => new NeutralController(0),
-                1 => new PlayerController(1),
-                _ => new AiController(actor.TeamId)
-            };
+                nc = actor.TeamId switch
+                {
+                    0 => new NeutralController(0),
+                    _ => new PlayerController(actor.TeamId)
+                };
+            }
+            else
+            {
+                nc = actor.TeamId switch
+                {
+                    0 => new NeutralController(0),
+                    1 => new PlayerController(1),
+                    _ => new AiController(actor.TeamId)
+                };
+            }
             
             nc.Init();
 
@@ -29,7 +48,7 @@ public class NodeSystem : BaseSystem<NodeEntity>
         
         nc.Nodes.Add(actor);
 
-        if (nc is PlayerController) 
+        if (nc is PlayerController p && LevelManager.TeamId == p.TeamId)
             actor.PlayHighlighting();
     }
 
@@ -50,10 +69,18 @@ public class NodeSystem : BaseSystem<NodeEntity>
                 i--;
             }
         }
+        
+        _nodes.Remove(actor.Id);
     }
 
-    public void GetHit(NodeEntity node, UnitEntity unit)
+    public void SendUnits(int id, List<UnitData> units, int targetId)
     {
+        _nodes[id].SendUnits(units, targetId);
+    }
+    
+    public void GetHit(int nodeId, UnitData unit)
+    {
+        var node = _nodes[nodeId];
         if (node.TeamId == unit.TeamId)
         {
             node.UnitCount++;
@@ -84,17 +111,27 @@ public class NodeSystem : BaseSystem<NodeEntity>
         var newOwner = TeamManager.TeamControllers.Find(nc => nc.TeamId == node.TeamId);
         newOwner.Nodes.Add(node);
         
-        var player = TeamManager.TeamControllers.Find(nc => nc.TeamId == 1);
-        if (player.Nodes.Count == 0)
+        if (owner.Nodes.Count == 0)
         {
-            LevelManager.CompleteLevel(false);
-        }
-        else
-        {
-            if (TeamManager.TeamControllers.All(nc => nc.TeamId is 0 or 1 && nc.Nodes.Count > 0 ||
-                                                      nc.TeamId > 1 && nc.Nodes.Count == 0))
+            if (owner is PlayerController)
             {
-                LevelManager.CompleteLevel(true);
+                if (LevelManager.IsNetwork)
+                {
+                    if (LevelManager.TeamId == owner.TeamId)
+                        LevelManager.CompleteNetworkLevel(false);
+                }
+                else
+                    LevelManager.CompleteLevel(false);
+            }
+        }
+
+        if (TeamManager.TeamControllers.FindAll(nc =>  nc.TeamId != newOwner.TeamId && nc.TeamId != 0)
+            .All(nc => nc.Nodes.Count == 0))
+        {
+            if (newOwner is PlayerController)
+            {
+                if (!LevelManager.IsNetwork)
+                    LevelManager.CompleteLevel(true);
             }
         }
     }

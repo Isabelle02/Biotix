@@ -9,7 +9,7 @@ public class RatingPage : Page
 
     private readonly List<LevelStatsView> _levelStatsViews = new();
 
-    protected override void OnOpenStart(ViewParam viewParam)
+    public override void OnOpenStart(IPage.ViewParam viewParam)
     {
         _backButton.onClick.AddListener(OnBackButtonClick);
         
@@ -27,7 +27,7 @@ public class RatingPage : Page
         PageManager.Open<MainMenuPage>();
     }
 
-    protected override void OnCloseStart()
+    public override void OnCloseStart()
     {
         foreach (var l in _levelStatsViews)
         {

@@ -2,5 +2,5 @@
 
 public static class TeamManager
 {
-    public static readonly List<TeamController> TeamControllers = new();
+    public static List<TeamController> TeamControllers = new();
 }

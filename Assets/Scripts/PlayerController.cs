@@ -1,13 +1,24 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class PlayerController : TeamController
+public class PlayerController : TeamController, IUpdatable
 {
     private readonly List<NodeEntity> _selectedNodes = new();
 
+    private bool _isPlayHighlighting;
     private bool _isFirstNodeActivation = true;
+    
+    private Vector3 _mouseDownPos;
+    private bool _isDragged;
+    
+    public NetworkPlayerController NetworkPlayerController;
 
     public PlayerController(int teamId) : base(teamId)
     {
+        if (!LevelManager.IsNetwork)
+            return;
+
+        NetworkPlayerController = LevelManager.TeamId == teamId ? LevelManager.PlayerController : null;
     }
 
     public override void Init()
@@ -126,5 +137,61 @@ public class PlayerController : TeamController
         }
         
         _selectedNodes.Clear();
+    }
+
+    public void Update(float delta)
+    {
+        /*if (LevelManager.IsNetwork && (NetworkPlayerController == null || !NetworkPlayerController.photonView.IsMine))
+            return;*/
+        
+        if (LevelManager.TeamId != TeamId)
+            return;
+
+        if (_isPlayHighlighting)
+        {
+            foreach (var n in Nodes)
+                n.PlayHighlighting();
+            
+            _isPlayHighlighting = false;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+            _mouseDownPos = MouseManager.GetMousePosition(0);
+
+        if (Input.GetMouseButtonUp(0)) 
+        {
+            var node = MouseManager.GetObject<NodeView>();
+            if (node != null) 
+            { 
+                if (_isDragged) 
+                { 
+                    _isDragged = false;
+                    SendUnits(node.NodeEntity);
+                }
+                else
+                {
+                    if (!ActivateNode(node.NodeEntity)) 
+                        SendUnits(node.NodeEntity);
+                }
+            } 
+            else if (_isDragged) 
+            { 
+                _isDragged = false; 
+                StopSearching();
+            }
+            else
+            {
+                DeactivateNodes();
+            }
+        } 
+ 
+        if (Input.GetMouseButton(0)) 
+        { 
+            if (_mouseDownPos != MouseManager.GetMousePosition(0)) 
+            { 
+                _isDragged = true; 
+                SearchTarget();
+            } 
+        } 
     }
 }

@@ -13,7 +13,7 @@ public class LaboratoryPage : Page
 
     private readonly List<FeatureItem> _featureItems = new();
 
-    protected override void OnOpenStart(ViewParam viewParam)
+    public override void OnOpenStart(IPage.ViewParam viewParam)
     {
         _fundsText.text = FundsManager.Funds.ToString();
         
@@ -48,7 +48,7 @@ public class LaboratoryPage : Page
         PageManager.Open<MainMenuPage>();
     }
 
-    protected override void OnCloseStart()
+    public override void OnCloseStart()
     {
         foreach (var f in _featureItems)
         {

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Photon.Pun;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -17,6 +19,12 @@ public class LevelManager : MonoBehaviour
     private static LevelsConfig _levelsConfig;
     
     public static int CurrentLevelIndex;
+    
+    public static int TeamId = 1;
+
+    public static bool IsNetwork;
+
+    public static NetworkPlayerController PlayerController;
 
     public static int LevelsCount => _levelsConfig.LevelsData.Count;
     
@@ -54,6 +62,27 @@ public class LevelManager : MonoBehaviour
     {
         return _levelsConfig.LevelsData[index];
     }
+    
+    public static LevelData GenerateLevel(int playerCount)
+    {
+        var levelData = new LevelData();
+        var usedPositions = new Dictionary<Vector3, float>();
+
+        for (var i = 1; i <= playerCount; i++)
+        {
+            var node = GenerateRandomNode(i, ref usedPositions);
+            levelData.NodesData.Add(node);
+        }
+
+        var neutralNodesCount = Random.Range(4, 8);
+        for (var i = 0; i < neutralNodesCount; i++)
+        {
+            var n= GenerateRandomNode(0, ref usedPositions);
+            levelData.NodesData.Add(n);
+        }
+
+        return levelData;
+    }
 
     public static void CompleteLevel(bool isWin)
     {
@@ -64,6 +93,7 @@ public class LevelManager : MonoBehaviour
         if (!isWin)
         {
             reward = FundsManager.CalculateReward(CurrentLevelIndex + 1, levelPassTimeInSeconds, false, false, false);
+            FundsManager.MakeTransaction(reward);
             PopupManager.Open<MatchCompletionPopup>(new MatchCompletionPopup.Param(false, false, levelPassTime,
                 reward));
             return;
@@ -90,6 +120,57 @@ public class LevelManager : MonoBehaviour
             levelPassTime, reward));
 
         FundsManager.MakeTransaction(reward);
+    }
+
+    public static void CompleteNetworkLevel(bool isWin)
+    {
+        var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+        
+        var levelPassTime = PlayerController.LevelPassTime;
+        var levelPassTimeInSeconds = (int) levelPassTime.TimeOfDay.TotalSeconds;
+        var reward = 0;
+        
+        PhotonNetwork.LeaveRoom();
+        while (PhotonNetwork.InRoom)
+        {
+        }
+        
+        if (!isWin)
+        {
+            reward = FundsManager.CalculateNetworkReward(playerCount, levelPassTimeInSeconds, false);
+            FundsManager.MakeTransaction(reward);
+            PopupManager.Open<MatchCompletionPopup>(new MatchCompletionPopup.Param(false, false, levelPassTime,
+                reward));
+            return;
+        }
+
+        reward = FundsManager.CalculateNetworkReward(playerCount, levelPassTimeInSeconds, true);
+        PopupManager.Open<MatchCompletionPopup>(new MatchCompletionPopup.Param(true, false, levelPassTime, reward));
+
+        FundsManager.MakeTransaction(reward);
+    }
+
+    private static NodeData GenerateRandomNode(int teamId, ref Dictionary<Vector3, float> usedPositions)
+    {
+        var node = new NodeData
+        {
+            TeamId = teamId,
+            Position = new Vector3(Random.Range(-4f, 4f), Random.Range(-4f, 4f)),
+            Radius = Random.Range(30, 50)
+        };
+
+        while (usedPositions.Any(p => 
+            p.Value + node.Radius + 20 >= Camera.main.WorldToScreenPoint(node.Position - p.Key).magnitude))
+        {
+            node.Position = new Vector3(Random.Range(-4f, 4f), Random.Range(-4f, 4f));
+            node.Radius = Random.Range(30, 50);
+        }
+            
+        node.MaxUnitCount = (int) (node.Radius * 2);
+        node.Injection = node.MaxUnitCount / 2;
+        usedPositions.Add(node.Position, node.Radius);
+
+        return node;
     }
 
     private static void SaveLevelStatsMap()

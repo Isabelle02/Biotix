@@ -7,7 +7,7 @@ public class SplashPage : Page
     [SerializeField] private Image _biohazardImage;
     [SerializeField] private float _fadingAnimDuration;
 
-    protected override void OnOpenStart(ViewParam viewParam)
+    public override void OnOpenStart(IPage.ViewParam viewParam)
     {
         SceneHandler.SceneLoaded += OnSceneLoaded;
         _biohazardImage.SetAlpha(Constants.Transparent);
@@ -19,7 +19,7 @@ public class SplashPage : Page
         PageManager.Open<MainMenuPage>();
     }
 
-    protected override void OnCloseStart()
+    public override void OnCloseStart()
     {
         SceneHandler.SceneLoaded -= OnSceneLoaded;
     }

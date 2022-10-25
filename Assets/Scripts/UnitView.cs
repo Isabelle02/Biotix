@@ -12,17 +12,19 @@ public class UnitView : MonoBehaviour, IReleasable
     private Tween _runningTween;
     private Tween _moveAnimTween;
 
-    public UnitEntity UnitEntity;
-
-    public NodeEntity TargetNode;
+    private bool _isRunning;
+    
+    public UnitEntity UnitEntity { get; set; }
+    
+    public int TargetNodeId { get; set; }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent<NodeView>(out var nodeView))
         {
-            if (TargetNode == nodeView.NodeEntity)
+            if (TargetNodeId == nodeView.NodeEntity.Id)
             {
-                WorldManager.CurrentWorld.GetSystem<NodeSystem>().GetHit(TargetNode, UnitEntity);
+                WorldManager.CurrentWorld.GetSystem<NodeSystem>().GetHit(TargetNodeId, UnitEntity.Data);
                 WorldManager.CurrentWorld.RemoveEntity(UnitEntity);
             }
         }
@@ -44,8 +46,6 @@ public class UnitView : MonoBehaviour, IReleasable
         _runningTween = transform.DOMove(endPos, duration);
         _moveAnimTween = PlayMoveAnim(duration / 10);
     }
-
-    private bool _isRunning;
 
     private Tween PlayMoveAnim(float duration)
     {

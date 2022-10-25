@@ -16,7 +16,7 @@ public class NodeView : MonoBehaviour
 
     private Vector3 _baseHighlightingImageScale;
     
-    public NodeEntity NodeEntity;
+    public NodeEntity NodeEntity { get; set; }
 
     private void Awake()
     {

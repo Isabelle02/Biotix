@@ -7,7 +7,7 @@ public class LevelsPage : Page
     [SerializeField] private List<LevelButton> _levelButtons;
     [SerializeField] private Button _backButton;
 
-    protected override void OnOpenStart(ViewParam viewParam)
+    public override void OnOpenStart(IPage.ViewParam viewParam)
     {
         _backButton.onClick.AddListener(OnBackButtonClick);
         
@@ -29,7 +29,7 @@ public class LevelsPage : Page
         PageManager.Open<MainMenuPage>();
     }
 
-    protected override void OnCloseStart()
+    public override void OnCloseStart()
     {
         foreach (var lb in _levelButtons)
         {

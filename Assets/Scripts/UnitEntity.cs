@@ -18,7 +18,7 @@ public class UnitEntity : BaseEntity<UnitData>, IActor
     public UnitEntity(UnitData data) : base(data)
     {
         _unitView = Recycler<UnitView>.Get();
-        _unitView.transform.SetParent(PageManager.Get<GameplayPage>().transform, false);
+        _unitView.transform.SetParent(PageManager.Transform, false);
         _unitView.transform.position = data.Position;
         _unitView.SetSprite(LevelManager.TeamSprites[data.TeamId]);
         _unitView.UnitEntity = this;
@@ -27,9 +27,9 @@ public class UnitEntity : BaseEntity<UnitData>, IActor
         _speed = data.Speed;
     }
 
-    public void Run(NodeEntity target)
+    public void Run(int targetId)
     {
-        _unitView.TargetNode = target;
+        _unitView.TargetNodeId = targetId;
         _unitView.Run(_endPosition, _speed);
     }
 
@@ -40,6 +40,6 @@ public class UnitEntity : BaseEntity<UnitData>, IActor
 
     public override void Dispose()
     {
-        Recycler<UnitView>.Release(_unitView);
+        Recycler<UnitView>.Release(_unitView.gameObject.GetComponent<UnitView>());
     }
 }

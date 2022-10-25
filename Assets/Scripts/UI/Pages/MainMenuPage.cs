@@ -9,7 +9,7 @@ public class MainMenuPage : Page
     [SerializeField] private Button _ratingButton;
     [SerializeField] private Toggle _soundToggle;
     
-    protected override void OnOpenStart(ViewParam viewParam)
+    public override void OnOpenStart(IPage.ViewParam viewParam)
     {
         _soundToggle.isOn = !SoundManager.IsOn;
         
@@ -29,7 +29,7 @@ public class MainMenuPage : Page
 
     private void OnPlayButtonClicked()
     {
-        PageManager.Open<LevelsPage>();
+        PageManager.Open<PlayingSettingsPage>();
     }
 
     private void OnSettingsButtonClicked()
@@ -42,7 +42,7 @@ public class MainMenuPage : Page
         PageManager.Open<RatingPage>();
     }
 
-    protected override void OnCloseStart()
+    public override void OnCloseStart()
     {
         _playButton.onClick.RemoveListener(OnPlayButtonClicked);
         _settingsButton.onClick.RemoveListener(OnSettingsButtonClicked);
