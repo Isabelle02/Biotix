@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class NetworkController : MonoBehaviourPunCallbacks
 {
-    private bool _isConnecting = false;
+    private bool _isConnecting;
 
     public event Action<bool> JoinedRoom;
     public event Action Disconnected;
@@ -18,25 +18,19 @@ public class NetworkController : MonoBehaviourPunCallbacks
     public void TryToConnect()
     {
         _isConnecting = true;
-        
+
         if (PhotonNetwork.IsConnected)
-        {
             PhotonNetwork.JoinRandomRoom();
-        }
         else
-        {
             PhotonNetwork.ConnectUsingSettings();
-        }
     }
 
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to the " + PhotonNetwork.CloudRegion + " server!");
         
-        if (_isConnecting)
-        {
+        if (_isConnecting) 
             PhotonNetwork.JoinRandomRoom();
-        }
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -71,7 +65,6 @@ public class NetworkController : MonoBehaviourPunCallbacks
         LevelManager.TeamId = playerCount;
         LevelManager.PlayerController = npc;
         
-        // <
         if (playerCount < 2)
         {
             Debug.Log("Waiting for an opponent");
@@ -92,7 +85,6 @@ public class NetworkController : MonoBehaviourPunCallbacks
     {
         var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
         
-        // >=
         if (playerCount >= 2)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
@@ -114,9 +106,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
     {
         var playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
-        if (playerCount == 1)
-        {
+        if (playerCount == 1) 
             LevelManager.CompleteNetworkLevel(true);
-        }
     }
 }

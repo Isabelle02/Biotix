@@ -56,7 +56,7 @@ public class PausePopup : Popup
     private async void OnSoundCheckBoxValueChanged(bool value)
     {
         SoundManager.IsOn = true;
-        SoundManager.Play(Sound.Toggle);
+        SoundManager.PlayOneShot(Sound.Toggle);
         await Task.Delay((int) (SoundManager.GetClipLength(Sound.Toggle) * 1000));
         SoundManager.IsOn = !value;
     }
