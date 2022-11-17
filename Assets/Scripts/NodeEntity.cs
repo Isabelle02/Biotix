@@ -124,13 +124,15 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
         var units = new List<UnitData>();
         for (var i = 0; i < unitsToSend; i++)
         {
-            var data = new UnitData();
             var posInCircle = Random.insideUnitCircle * Data.Radius / 100;
-            data.Position = new Vector3(basePos.x + posInCircle.x, basePos.y + posInCircle.y, basePos.z + 1);
-            data.EndPosition = target._nodeView.transform.position + Vector3.forward;
-            data.TeamId = TeamId;
-            data.Attack = attack;
-            data.Speed = speed;
+            var data = new UnitData
+            {
+                Position = new Vector3(basePos.x + posInCircle.x, basePos.y + posInCircle.y, basePos.z + 1),
+                EndPosition = target._nodeView.transform.position + Vector3.forward,
+                TeamId = TeamId,
+                Attack = attack,
+                Speed = speed
+            };
             units.Add(data);
         }
         
