@@ -117,10 +117,8 @@ public class LevelsEditor : EditorWindow
         if (_levelsList != null)
         {
             _levelsList.DoLayoutList();
-            if (GUILayout.Button("Load"))
-            {
+            if (GUILayout.Button("Load")) 
                 LoadLevel(_levelsList.index);
-            }
 
             if (GUILayout.Button("Save"))
             {
