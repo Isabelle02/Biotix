@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LaboratoryPage : Page
+public class LaboratoryWindow : Window
 {
     [SerializeField] private Text _fundsText;
     [SerializeField] private VerticalLayoutGroup _featuresList;
@@ -13,7 +13,7 @@ public class LaboratoryPage : Page
 
     private readonly List<FeatureItem> _featureItems = new();
 
-    public override void OnOpenStart(IPage.ViewParam viewParam)
+    public override void OnOpenStart(ViewParam viewParam)
     {
         _fundsText.text = FundsManager.Funds.ToString();
         
@@ -45,7 +45,7 @@ public class LaboratoryPage : Page
 
     private void OnBackButtonClick()
     {
-        PageManager.Open<MainMenuPage>();
+        WindowManager.Open<MainMenuWindow>();
     }
 
     public override void OnCloseStart()

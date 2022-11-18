@@ -1,14 +1,29 @@
 ﻿using System;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NetworkGameplayPage : Page
+public class GameplayWindow : Window
 {
     [SerializeField] private Button _pauseButton;
+    
+    private Gameplay _gameplay;
 
-    public override void OnOpenStart(IPage.ViewParam viewParam)
+    public DateTime LevelPassTime => _gameplay.LevelPassTime;
+
+    public override void OnOpenStart(ViewParam viewParam)
     {
+        if (viewParam is not Param param)
+        {
+            Debug.LogError("GameplayWindow: Not Found ViewParam");
+            return;
+        }
+        
         _pauseButton.onClick.AddListener(OnPauseButtonClicked);
+
+        var lvlData = LevelManager.GetLevel(param.LevelIndex);
+        _gameplay = new Gameplay();
+        _gameplay.Init(lvlData);
     }
 
     private void OnPauseButtonClicked()
@@ -22,7 +37,7 @@ public class NetworkGameplayPage : Page
     {
         if (popup is not PausePopup)
             return;
-
+        
         _pauseButton.gameObject.SetActive(true);
     }
 
@@ -33,7 +48,15 @@ public class NetworkGameplayPage : Page
         var updateSystem = WorldManager.CurrentWorld.GetSystem<UpdateSystem>();
         WorldManager.CurrentWorld.Deactivate();
         updateSystem.ClearUpdatables();
+    }
 
-        LevelManager.IsNetwork = false;
+    public class Param : ViewParam
+    {
+        public readonly int LevelIndex;
+
+        public Param(int levelIndex)
+        {
+            LevelIndex = levelIndex;
+        }
     }
 }

@@ -40,7 +40,6 @@ public class PopupManager : MonoBehaviour
         }
 
         var p = _instance._popupsDictionary[typeof(T)];
-
         p.Open(viewParam);
         _instance._openedPopups.Push(p);
     }

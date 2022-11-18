@@ -2,12 +2,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelsPage : Page
+public class LevelsWindow : Window
 {
     [SerializeField] private List<LevelButton> _levelButtons;
     [SerializeField] private Button _backButton;
 
-    public override void OnOpenStart(IPage.ViewParam viewParam)
+    public override void OnOpenStart(ViewParam viewParam)
     {
         _backButton.onClick.AddListener(OnBackButtonClick);
         
@@ -26,7 +26,7 @@ public class LevelsPage : Page
 
     private void OnBackButtonClick()
     {
-        PageManager.Open<MainMenuPage>();
+        WindowManager.Open<MainMenuWindow>();
     }
 
     public override void OnCloseStart()

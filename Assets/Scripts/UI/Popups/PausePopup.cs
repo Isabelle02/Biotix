@@ -36,7 +36,7 @@ public class PausePopup : Popup
     private void OnRestartButtonClicked()
     {
         PopupManager.CloseLast();
-        PageManager.Open<GameplayPage>(new GameplayPage.Param(LevelManager.CurrentLevelIndex));
+        WindowManager.Open<GameplayWindow>(new GameplayWindow.Param(LevelManager.CurrentLevelIndex));
     }
 
     private void OnMainMenuButtonClicked()
@@ -50,7 +50,7 @@ public class PausePopup : Popup
         }
         
         PopupManager.CloseLast();
-        PageManager.Open<MainMenuPage>();
+        WindowManager.Open<MainMenuWindow>();
     }
 
     private async void OnSoundCheckBoxValueChanged(bool value)

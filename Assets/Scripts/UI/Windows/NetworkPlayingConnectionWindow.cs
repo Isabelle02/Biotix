@@ -3,7 +3,7 @@ using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NetworkPlayingConnectionPage : Page
+public class NetworkPlayingConnectionWindow : Window
 {
     [SerializeField] private Button _cancelButton;
     [SerializeField] private Button _connectButton;
@@ -11,7 +11,7 @@ public class NetworkPlayingConnectionPage : Page
     
     private NetworkController _networkController;
 
-    public override void OnOpenStart(IPage.ViewParam viewParam)
+    public override void OnOpenStart(ViewParam viewParam)
     {
         _networkController = FindObjectOfType<NetworkController>();
         if (_networkController == null)
@@ -53,7 +53,7 @@ public class NetworkPlayingConnectionPage : Page
             }
         }
 
-        PageManager.Open<MainMenuPage>();
+        WindowManager.Open<MainMenuWindow>();
     }
 
     private void OnDisconnected()

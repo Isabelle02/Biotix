@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayingSettingsPage : Page
+public class PlayingSettingsWindow : Window
 {
     [SerializeField] private Button _singlePlayerButton;
     [SerializeField] private Button _multiplayerButton;
     [SerializeField] private Button _backButton;
     
-    public override void OnOpenStart(IPage.ViewParam viewParam)
+    public override void OnOpenStart(ViewParam viewParam)
     {
         _singlePlayerButton.onClick.AddListener(OnSinglePlayerButtonClick);
         _multiplayerButton.onClick.AddListener(OnMultiplayerButtonClick);
@@ -16,17 +16,17 @@ public class PlayingSettingsPage : Page
 
     private void OnSinglePlayerButtonClick()
     {
-        PageManager.Open<LevelsPage>();
+        WindowManager.Open<LevelsWindow>();
     }
 
     private void OnMultiplayerButtonClick()
     {
-        PageManager.Open<NetworkPlayingConnectionPage>();
+        WindowManager.Open<NetworkPlayingConnectionWindow>();
     }
     
     private void OnBackButtonClick()
     {
-        PageManager.Open<MainMenuPage>();
+        WindowManager.Open<MainMenuWindow>();
     }
 
     public override void OnCloseStart()

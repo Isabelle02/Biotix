@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsPage : Page
+public class SettingsWindow : Window
 {
     [SerializeField] private Button _closeButton;
     
-    public override void OnOpenStart(IPage.ViewParam viewParam)
+    public override void OnOpenStart(ViewParam viewParam)
     {
         _closeButton.onClick.AddListener(OnCLoseButtonClicked);
     }
 
     private void OnCLoseButtonClicked()
     {
-        PageManager.Open<MainMenuPage>();
+        WindowManager.Open<MainMenuWindow>();
     }
 
     public override void OnCloseStart()

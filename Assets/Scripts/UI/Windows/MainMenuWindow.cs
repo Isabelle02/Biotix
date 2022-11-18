@@ -2,14 +2,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuPage : Page
+public class MainMenuWindow : Window
 {
     [SerializeField] private Button _playButton;
     [SerializeField] private Button _settingsButton;
     [SerializeField] private Button _ratingButton;
     [SerializeField] private Toggle _soundToggle;
     
-    public override void OnOpenStart(IPage.ViewParam viewParam)
+    public override void OnOpenStart(ViewParam viewParam)
     {
         SoundManager.Play(Sound.Space);
         
@@ -31,17 +31,17 @@ public class MainMenuPage : Page
 
     private void OnPlayButtonClicked()
     {
-        PageManager.Open<PlayingSettingsPage>();
+        WindowManager.Open<PlayingSettingsWindow>();
     }
 
     private void OnSettingsButtonClicked()
     {
-        PageManager.Open<LaboratoryPage>();
+        WindowManager.Open<LaboratoryWindow>();
     }
 
     private void OnRatingButtonClicked()
     {
-        PageManager.Open<RatingPage>();
+        WindowManager.Open<RatingWindow>();
     }
 
     public override void OnCloseStart()

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2439205972677884299}
   - component: {fileID: 2439205972677884300}
   m_Layer: 5
-  m_Name: SplashPage
+  m_Name: SplashWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -86,7 +86,7 @@ public class LevelManager : MonoBehaviour
 
     public static void CompleteLevel(bool isWin)
     {
-        var levelPassTime = PageManager.Get<GameplayPage>().LevelPassTime;
+        var levelPassTime = WindowManager.Get<GameplayWindow>().LevelPassTime;
         var levelPassTimeInSeconds = (int) levelPassTime.TimeOfDay.TotalSeconds;
         var reward = 0;
         

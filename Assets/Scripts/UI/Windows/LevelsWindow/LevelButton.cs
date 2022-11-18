@@ -58,7 +58,7 @@ public class LevelButton : Button
             return;
         
         LevelManager.CurrentLevelIndex = _levelNumber - 1;
-        PageManager.Open<GameplayPage>(new GameplayPage.Param(_levelNumber - 1));
+        WindowManager.Open<GameplayWindow>(new GameplayWindow.Param(_levelNumber - 1));
     }
 
     public void SetState(LevelState state)

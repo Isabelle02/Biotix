@@ -51,7 +51,7 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
     public NodeEntity(NodeData data) : base(data)
     {
         _nodeView = Recycler<NodeView>.Get();
-        _nodeView.transform.SetParent(PageManager.Transform, false);
+        _nodeView.transform.SetParent(WindowManager.Transform, false);
         _nodeView.transform.position = data.Position - Vector3.forward * 2;
         _nodeView.SetSprite(LevelManager.TeamSprites[data.TeamId]);
         _nodeView.SetRadius(data.Radius);

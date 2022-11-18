@@ -18,7 +18,7 @@ public class UnitEntity : BaseEntity<UnitData>, IActor
     public UnitEntity(UnitData data) : base(data)
     {
         _unitView = Recycler<UnitView>.Get();
-        _unitView.transform.SetParent(PageManager.Transform, false);
+        _unitView.transform.SetParent(WindowManager.Transform, false);
         _unitView.transform.position = data.Position;
         _unitView.SetSprite(LevelManager.TeamSprites[data.TeamId]);
         _unitView.UnitEntity = this;

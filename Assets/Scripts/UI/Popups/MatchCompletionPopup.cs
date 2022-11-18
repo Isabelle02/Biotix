@@ -43,7 +43,7 @@ public class MatchCompletionPopup : Popup
     private void OnMainMenuButtonClicked()
     {
         PopupManager.CloseLast();
-        PageManager.Open<MainMenuPage>();
+        WindowManager.Open<MainMenuWindow>();
     }
 
     private void OnRestartButtonClicked()
@@ -51,19 +51,19 @@ public class MatchCompletionPopup : Popup
         if (LevelManager.IsNetwork)
         {
             PopupManager.CloseLast();
-            PageManager.Open<NetworkPlayingConnectionPage>();
+            WindowManager.Open<NetworkPlayingConnectionWindow>();
         }
         else
         {
             PopupManager.CloseLast();
-            PageManager.Open<GameplayPage>(new GameplayPage.Param(LevelManager.CurrentLevelIndex));
+            WindowManager.Open<GameplayWindow>(new GameplayWindow.Param(LevelManager.CurrentLevelIndex));
         }
     }
 
     private void OnNextButtonClicked()
     {
         PopupManager.CloseLast();
-        PageManager.Open<GameplayPage>(new GameplayPage.Param(++LevelManager.CurrentLevelIndex));
+        WindowManager.Open<GameplayWindow>(new GameplayWindow.Param(++LevelManager.CurrentLevelIndex));
     }
 
     protected override void OnCloseStart()

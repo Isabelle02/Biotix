@@ -2,12 +2,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SplashPage : Page
+public class SplashWindow : Window
 {
     [SerializeField] private Image _biohazardImage;
     [SerializeField] private float _fadingAnimDuration;
 
-    public override void OnOpenStart(IPage.ViewParam viewParam)
+    public override void OnOpenStart(ViewParam viewParam)
     {
         SceneHandler.SceneLoaded += OnSceneLoaded;
         _biohazardImage.SetAlpha(Constants.Transparent);
@@ -16,7 +16,7 @@ public class SplashPage : Page
 
     private void OnSceneLoaded()
     {
-        PageManager.Open<MainMenuPage>();
+        WindowManager.Open<MainMenuWindow>();
     }
 
     public override void OnCloseStart()

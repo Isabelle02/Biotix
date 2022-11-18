@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public abstract class Page : MonoBehaviour, IPage
+public abstract class Window : MonoBehaviour
 {
     public bool IsActive => gameObject.activeSelf;
     
-    public abstract void OnOpenStart(IPage.ViewParam viewParam);
+    public abstract void OnOpenStart(Window.ViewParam viewParam);
     public abstract void OnCloseStart();
 
-    public void Open(IPage.ViewParam viewParam)
+    public void Open(Window.ViewParam viewParam)
     {
         gameObject.SetActive(true);
         OnOpenStart(viewParam);
@@ -17,5 +17,9 @@ public abstract class Page : MonoBehaviour, IPage
     {
         gameObject.SetActive(false);
         OnCloseStart();
+    }
+    
+    public abstract class ViewParam
+    {
     }
 }

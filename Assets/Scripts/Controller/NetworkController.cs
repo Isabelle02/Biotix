@@ -75,7 +75,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
             Debug.Log("Match is ready to start");
             JoinedRoom?.Invoke(true);
             
-            PageManager.Open<NetworkGameplayPage>();
+            WindowManager.Open<NetworkGameplayWindow>();
             LevelManager.IsNetwork = true;
             LevelManager.PlayerController.Init();
         }
@@ -91,7 +91,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
             Debug.Log("Match is ready to start");
             JoinedRoom?.Invoke(true);
             
-            PageManager.Open<NetworkGameplayPage>();
+            WindowManager.Open<NetworkGameplayWindow>();
             LevelManager.IsNetwork = true;
             LevelManager.PlayerController.Init();
         }

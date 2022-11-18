@@ -2,14 +2,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RatingPage : Page
+public class RatingWindow : Window
 {
     [SerializeField] private VerticalLayoutGroup _statsList;
     [SerializeField] private Button _backButton;
 
     private readonly List<LevelStatsView> _levelStatsViews = new();
 
-    public override void OnOpenStart(IPage.ViewParam viewParam)
+    public override void OnOpenStart(ViewParam viewParam)
     {
         _backButton.onClick.AddListener(OnBackButtonClick);
         
@@ -24,7 +24,7 @@ public class RatingPage : Page
 
     private void OnBackButtonClick()
     {
-        PageManager.Open<MainMenuPage>();
+        WindowManager.Open<MainMenuWindow>();
     }
 
     public override void OnCloseStart()
