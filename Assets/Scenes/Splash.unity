@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 314837324}
   - component: {fileID: 314837328}
   m_Layer: 5
-  m_Name: PageManager
+  m_Name: WindowManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,7 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50a9c2c9f811f474691c58647679369b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pagesConfig: {fileID: 11400000, guid: f7fa763fb4cde444fa4d5772c1144f8b, type: 2}
+  _windowsConfig: {fileID: 11400000, guid: f7fa763fb4cde444fa4d5772c1144f8b, type: 2}
 --- !u!1 &321836233
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,8 +364,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 321836234}
-  _spaceClip: {fileID: 8300000, guid: 1aa04ff7f3e148f4eb185147c1eac91d, type: 3}
-  _toggleClip: {fileID: 8300000, guid: e131f160f348764429361b94242f761b, type: 3}
 --- !u!4 &321836236
 Transform:
   m_ObjectHideFlags: 0
