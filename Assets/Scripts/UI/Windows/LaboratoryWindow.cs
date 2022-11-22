@@ -15,6 +15,8 @@ public class LaboratoryWindow : Window
 
     public override void OnOpenStart(ViewParam viewParam)
     {
+        FundsManager.UpdatedFunds += OnFundsUpdated;
+        
         _fundsText.text = FundsManager.Funds.ToString();
         
         foreach (var n in Enum.GetValues(typeof(FeatureItemName.FeatureName)))
@@ -31,6 +33,11 @@ public class LaboratoryWindow : Window
         
         _teamSpriteButton.onClick.AddListener(OnTeamSpriteButtonClick);
         _backButton.onClick.AddListener(OnBackButtonClick);
+    }
+
+    private void OnFundsUpdated(int value)
+    {
+        _fundsText.text = value.ToString();
     }
 
     private void OnTeamSpriteButtonClick()
@@ -50,6 +57,8 @@ public class LaboratoryWindow : Window
 
     public override void OnCloseStart()
     {
+        FundsManager.UpdatedFunds -= OnFundsUpdated;
+        
         foreach (var f in _featureItems)
         {
             Recycler<FeatureItem>.Release(f);

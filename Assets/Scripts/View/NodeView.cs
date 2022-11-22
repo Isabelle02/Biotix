@@ -72,6 +72,7 @@ public class NodeView : MonoBehaviour
     public void PlayHighlighting()
     {
         _highlightingImage.enabled = true;
+        _highlightingImage.SetAlpha(Constants.Opaque);
         _highlightingSequence = DOTween.Sequence()
             .Append(_highlightingImage.transform.DOScale(_baseHighlightingImageScale * 1.2f, 1f))
             .Join(_highlightingImage.DOFade(Constants.Transparent, 1f))

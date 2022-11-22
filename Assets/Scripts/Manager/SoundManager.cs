@@ -29,48 +29,17 @@ public class SoundManager : MonoBehaviour
 
     public static float GetClipLength(Sound sound)
     {
-        return SoundClip.GetClip(sound).length;
+        return SoundClipConfig.GetClip(sound).length;
     }
 
     public static void Play(Sound sound)
     {
-        _instance._audioSource.clip = SoundClip.GetClip(sound);
+        _instance._audioSource.clip = SoundClipConfig.GetClip(sound);
         _instance._audioSource.Play();
     }
 
     public static void PlayOneShot(Sound sound)
     {
-        _instance._audioSource.PlayOneShot(SoundClip.GetClip(sound));
-    }
-}
-
-public enum Sound
-{
-    Space,
-    Toggle
-}
-
-[Serializable]
-[CreateAssetMenu(fileName = "SoundClipConfig", menuName = "Configs/SoundClipConfig")]
-public class SoundClip : ScriptableObject
-{
-    [SerializeField] private SerializedDictionary<Sound, AudioClip> _sounds;
-
-    private static SoundClip _instance;
-
-    private static SoundClip Instance
-    {
-        get
-        {
-            if (_instance == null) 
-                _instance = Resources.Load<SoundClip>("Configs/SoundClipConfig");
-
-            return _instance;
-        }
-    }
-    
-    public static AudioClip GetClip(Sound sound)
-    {
-        return Instance._sounds[sound];
+        _instance._audioSource.PlayOneShot(SoundClipConfig.GetClip(sound));
     }
 }

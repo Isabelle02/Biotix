@@ -4,11 +4,17 @@ using UnityEngine;
 public static class FundsManager
 {
     private const string FundsKey = "Funds";
-    
+
+    public static event Action<int> UpdatedFunds; 
+
     public static int Funds
     {
         get => PlayerPrefs.GetInt(FundsKey, 0);
-        private set => PlayerPrefs.SetInt(FundsKey, value);
+        private set
+        {
+            PlayerPrefs.SetInt(FundsKey, value);
+            UpdatedFunds?.Invoke(value);
+        }
     }
 
     public static bool MakeTransaction(int diff)

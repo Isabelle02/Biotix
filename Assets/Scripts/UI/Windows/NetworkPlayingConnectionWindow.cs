@@ -1,5 +1,4 @@
 ﻿using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,10 +16,22 @@ public class NetworkPlayingConnectionWindow : Window
         if (_networkController == null)
             _networkController = Recycler<NetworkController>.Get();
 
+        _networkController.ConnectedToMaster += OnConnectToMaster;
         _networkController.JoinedRoom += OnJoinedRoom;
-        _networkController.Disconnected += OnDisconnected;
-        _connectButton.onClick.AddListener(OnConnectButtonClick);
+        
         _cancelButton.onClick.AddListener(OnCancelButtonClick);
+        _connectButton.onClick.AddListener(OnConnectButtonClick);
+        
+        _connectStatusText.text = "Loading...";
+        
+        if (_networkController.IsConnectedToMaster)
+            OnConnectToMaster();
+    }
+
+    private void OnConnectToMaster()
+    {
+        _connectStatusText.text = "Connect";
+        _connectButton.interactable = true;
     }
 
     private void OnConnectButtonClick()
@@ -35,7 +46,7 @@ public class NetworkPlayingConnectionWindow : Window
     {
         if (!isStart)
         {
-            _connectStatusText.text = "Waiting For Opponent";
+            _connectStatusText.text = "Waiting For Opponent...";
         }
         else
         {
@@ -56,17 +67,9 @@ public class NetworkPlayingConnectionWindow : Window
         WindowManager.Open<MainMenuWindow>();
     }
 
-    private void OnDisconnected()
-    {
-        _connectButton.interactable = true;
-        _connectStatusText.text = "Connect";
-    }
-
     public override void OnCloseStart()
     {
-        _networkController.OnDisconnected(DisconnectCause.None);
         _networkController.JoinedRoom -= OnJoinedRoom;
-        _networkController.Disconnected -= OnDisconnected;
         _connectButton.onClick.RemoveListener(OnConnectButtonClick);
         _cancelButton.onClick.RemoveListener(OnCancelButtonClick);
     }

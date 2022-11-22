@@ -159,13 +159,14 @@ public class LevelManager : MonoBehaviour
             Radius = Random.Range(30, 50)
         };
 
-        while (usedPositions.Any(p => 
-            p.Value + node.Radius + 20 >= Camera.main.WorldToScreenPoint(node.Position - p.Key).magnitude))
+        while (usedPositions.Any(p =>
+            p.Value + node.Radius + 50 >=
+            (Camera.main.WorldToScreenPoint(node.Position) - Camera.main.WorldToScreenPoint(p.Key)).magnitude))
         {
             node.Position = new Vector3(Random.Range(-4f, 4f), Random.Range(-4f, 4f));
             node.Radius = Random.Range(30, 50);
         }
-            
+
         node.MaxUnitCount = (int) (node.Radius * 2);
         node.Injection = node.MaxUnitCount / 2;
         usedPositions.Add(node.Position, node.Radius);

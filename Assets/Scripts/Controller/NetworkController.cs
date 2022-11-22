@@ -7,8 +7,11 @@ public class NetworkController : MonoBehaviourPunCallbacks
 {
     private bool _isConnecting;
 
+    public event Action ConnectedToMaster;
     public event Action<bool> JoinedRoom;
     public event Action Disconnected;
+
+    public bool IsConnectedToMaster;
 
     public void Start()
     {
@@ -28,6 +31,8 @@ public class NetworkController : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to the " + PhotonNetwork.CloudRegion + " server!");
+        IsConnectedToMaster = true;
+        ConnectedToMaster?.Invoke();
         
         if (_isConnecting) 
             PhotonNetwork.JoinRandomRoom();
@@ -36,7 +41,7 @@ public class NetworkController : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.Log($"Disconnected due to: {cause}");
-        
+        IsConnectedToMaster = false;
         Disconnected?.Invoke();
     }
 
