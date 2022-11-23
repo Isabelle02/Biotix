@@ -23,28 +23,282 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cde326d840da42041af7622decf07b5e, type: 3}
   LevelsData:
   - NodesData:
+    - TeamId: 1
+      Position: {x: -6, y: 0, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 20
+    - TeamId: 2
+      Position: {x: 6, y: 0, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 20
     - TeamId: 0
-      Position: {x: -5.0229893, y: 0.08920264, z: 0}
+      Position: {x: 4, y: -3, z: 0}
       Radius: 50
       MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: -4, y: 3, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: -4, y: -3, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 4, y: 3, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 0, y: 0, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
       Injection: 20
+  - NodesData:
     - TeamId: 1
-      Position: {x: 1.9839594, y: 3.44199, z: 0}
+      Position: {x: -5, y: -2, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
+      Injection: 30
+    - TeamId: 2
+      Position: {x: 5, y: 2, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
+      Injection: 30
+    - TeamId: 0
+      Position: {x: -4, y: 1, z: 0}
       Radius: 50
       MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: -2, y: 3, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 1, y: 3.5, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: -1, y: -3.5, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 2, y: -3, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 4, y: -1, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 0, y: 0, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
       Injection: 20
+  - NodesData:
     - TeamId: 1
-      Position: {x: 6.3162127, y: 3.253631, z: 0}
-      Radius: 50
-      MaxUnitCount: 40
-      Injection: 20
+      Position: {x: 0, y: -3, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
+      Injection: 30
     - TeamId: 2
-      Position: {x: 6.0901823, y: -3.527287, z: 0}
+      Position: {x: -5, y: 3, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
+      Injection: 30
+    - TeamId: 3
+      Position: {x: 5, y: 3, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
+      Injection: 30
+    - TeamId: 0
+      Position: {x: -6, y: 0, z: 0}
       Radius: 50
       MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: -4, y: -2, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: -2, y: 3.5, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 2, y: 3.5, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 6, y: 0, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 4, y: -2, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 0, y: 2.5, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 0, y: 0, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
       Injection: 20
+  - NodesData:
+    - TeamId: 1
+      Position: {x: 0, y: 1, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
+      Injection: 30
     - TeamId: 2
-      Position: {x: 1.1928523, y: -3.3389282, z: 0}
+      Position: {x: -5, y: 3, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
+      Injection: 30
+    - TeamId: 3
+      Position: {x: 5, y: 3, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
+      Injection: 30
+    - TeamId: 4
+      Position: {x: 0, y: -3, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
+      Injection: 30
+    - TeamId: 0
+      Position: {x: -7, y: 0.5, z: 0}
       Radius: 50
       MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: -6.5, y: -2, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: -4, y: -2.5, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 4, y: -2.5, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 6.5, y: -2, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 7, y: 0.5, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: -2.5, y: 2, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 0, y: 3.5, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 2.5, y: 2, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+  - NodesData:
+    - TeamId: 1
+      Position: {x: -7, y: -3, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
+      Injection: 30
+    - TeamId: 2
+      Position: {x: 7, y: -3, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
+      Injection: 30
+    - TeamId: 3
+      Position: {x: 7, y: 3, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
+      Injection: 30
+    - TeamId: 4
+      Position: {x: -7, y: 3, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
+      Injection: 30
+    - TeamId: 0
+      Position: {x: -3, y: 3, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 0, y: 2.7, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 3, y: 3, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: -3, y: -3, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 0, y: -2.7, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 3, y: -3, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: -7, y: 0, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: -4.5, y: 0, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 4.5, y: 0, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 7, y: 0, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 0, y: 0, z: 0}
+      Radius: 70
+      MaxUnitCount: 60
       Injection: 20

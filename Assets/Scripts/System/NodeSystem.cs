@@ -135,49 +135,4 @@ public class NodeSystem : BaseSystem<NodeEntity>
             }
         }
     }
-
-    public void SearchTarget(int teamId)
-    {
-        var nc = TeamManager.TeamControllers.Find(nc => nc.TeamId == teamId);
-        if (nc == null)
-            return;
-        
-        nc.SearchTarget();
-    }
-
-    public void StopSearching(int teamId)
-    {
-        var nc = TeamManager.TeamControllers.Find(nc => nc.TeamId == teamId);
-        if (nc == null)
-            return;
-        
-        nc.StopSearching();
-    }
-    
-    public bool ActivateNode(int teamId, NodeEntity node)
-    {
-        var nc = TeamManager.TeamControllers.Find(nc => nc.TeamId == teamId);
-        if (nc == null)
-            return false;
-        
-        return nc.ActivateNode(node);
-    }
-
-    public void SendUnits(int teamId, NodeEntity target)
-    {
-        var nc = TeamManager.TeamControllers.Find(nc => nc.TeamId == teamId);
-        if (nc == null)
-            return;
-        
-        nc.SendUnits(target);
-    }
-
-    public void DeactivateNodes(int teamId)
-    {
-        var nc = TeamManager.TeamControllers.Find(nc => nc.TeamId == teamId);
-        if (nc == null)
-            return;
-        
-        nc.DeactivateNodes();
-    }
 }

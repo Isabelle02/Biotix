@@ -154,6 +154,7 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
     public override void Dispose()
     {
         UnitsSent = null;
+        StopHighlighting();
         Recycler<NodeView>.Release(_nodeView.gameObject.GetComponent<NodeView>());
     }
 }
