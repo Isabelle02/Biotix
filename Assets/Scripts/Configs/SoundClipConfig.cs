@@ -29,5 +29,6 @@ public class SoundClipConfig : ScriptableObject
 public enum Sound
 {
     Space,
-    Toggle
+    Toggle,
+    Transaction
 }

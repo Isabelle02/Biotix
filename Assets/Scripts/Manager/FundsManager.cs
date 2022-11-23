@@ -21,11 +21,13 @@ public static class FundsManager
     {
         if (Funds + diff < 0)
         {
-            PopupManager.Open<WarningPopup>(new WarningPopup.Param($"Insufficient funds: {Funds} {diff:+0;-#}"));
+            PopupManager.Open<WarningPopup>(new WarningPopup.Param($"Insufficient funds: {Funds}\n {diff:+0;-#}"));
             return false;
         }
 
         Funds += diff;
+        
+        SoundManager.PlayOneShot(Sound.Transaction);
         
         return true;
     }
