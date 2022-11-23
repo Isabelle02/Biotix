@@ -11,8 +11,6 @@ public class MainMenuWindow : Window
     
     public override void OnOpenStart(ViewParam viewParam)
     {
-        SoundManager.Play(Sound.Space);
-        
         _soundToggle.isOn = !SoundManager.IsOn;
         
         _playButton.onClick.AddListener(OnPlayButtonClicked);

@@ -11,18 +11,19 @@ public class NetworkPlayingConnectionWindow : Window
     private NetworkController _networkController;
 
     public override void OnOpenStart(ViewParam viewParam)
-    {
+    { 
+        _connectButton.interactable = false;
+        _connectStatusText.text = "Loading...";
+        
+        _cancelButton.onClick.AddListener(OnCancelButtonClick);
+        _connectButton.onClick.AddListener(OnConnectButtonClick);
+    
         _networkController = FindObjectOfType<NetworkController>();
         if (_networkController == null)
             _networkController = Recycler<NetworkController>.Get();
 
         _networkController.ConnectedToMaster += OnConnectToMaster;
         _networkController.JoinedRoom += OnJoinedRoom;
-        
-        _cancelButton.onClick.AddListener(OnCancelButtonClick);
-        _connectButton.onClick.AddListener(OnConnectButtonClick);
-        
-        _connectStatusText.text = "Loading...";
         
         if (_networkController.IsConnectedToMaster)
             OnConnectToMaster();
