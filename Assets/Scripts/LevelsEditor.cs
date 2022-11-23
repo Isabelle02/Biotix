@@ -122,7 +122,7 @@ public class LevelsEditor : EditorWindow
 
             if (GUILayout.Button("Save"))
             {
-                AssetDatabase.Refresh();
+                EditorUtility.SetDirty(_levelsConfig);
                 AssetDatabase.SaveAssets();
             }
         }

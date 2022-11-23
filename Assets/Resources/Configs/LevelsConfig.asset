@@ -54,6 +54,16 @@ MonoBehaviour:
       MaxUnitCount: 40
       Injection: 10
     - TeamId: 0
+      Position: {x: -3, y: 0, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
+      Position: {x: 3, y: 0, z: 0}
+      Radius: 50
+      MaxUnitCount: 40
+      Injection: 10
+    - TeamId: 0
       Position: {x: 0, y: 0, z: 0}
       Radius: 70
       MaxUnitCount: 60
