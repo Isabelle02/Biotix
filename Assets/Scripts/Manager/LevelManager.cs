@@ -120,6 +120,9 @@ public class LevelManager : MonoBehaviour
             levelPassTime, reward));
 
         FundsManager.MakeTransaction(reward);
+
+        if (LevelManager.CurrentLevelIndex == LevelManager.PassedLevelsCount)
+            LevelManager.PassedLevelsCount++;
     }
 
     public static void CompleteNetworkLevel(bool isWin)
@@ -152,23 +155,34 @@ public class LevelManager : MonoBehaviour
 
     private static NodeData GenerateRandomNode(int teamId, ref Dictionary<Vector3, float> usedPositions)
     {
+        var radii = new List<int>()
+        {
+            30,
+            50,
+            70
+        };
+
         var node = new NodeData
         {
             TeamId = teamId,
-            Position = new Vector3(Random.Range(-4f, 4f), Random.Range(-4f, 4f)),
-            Radius = Random.Range(30, 50)
+            Position = new Vector3(Random.Range(-7.5f, 7.5f), Random.Range(-3.5f, 3.5f)),
+            Radius = radii[Random.Range(0, radii.Count)]
         };
 
         while (usedPositions.Any(p =>
             p.Value + node.Radius + 50 >=
             (Camera.main.WorldToScreenPoint(node.Position) - Camera.main.WorldToScreenPoint(p.Key)).magnitude))
         {
-            node.Position = new Vector3(Random.Range(-4f, 4f), Random.Range(-4f, 4f));
-            node.Radius = Random.Range(30, 50);
+            node.Position = new Vector3(Random.Range(-7.5f, 7.5f), Random.Range(-3.5f, 3.5f));
+            node.Radius = radii[Random.Range(0, radii.Count)];
         }
 
         node.MaxUnitCount = (int) (node.Radius * 2);
-        node.Injection = node.MaxUnitCount / 2;
+        if (teamId == 0)
+            node.Injection = node.MaxUnitCount / 2 - 15;
+        else 
+            node.Injection = node.MaxUnitCount / 2;
+
         usedPositions.Add(node.Position, node.Radius);
 
         return node;

@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 public class AiController : TeamController, IUpdatable
 {
@@ -11,12 +9,23 @@ public class AiController : TeamController, IUpdatable
 
     private readonly List<NodeEntity> _selectedNodes = new();
 
+    private AIStrategy _strategy;
+
     public AiController(int teamId) : base(teamId)
     {
     }
 
     public override void Init()
     {
+        var complexity = LevelManager.CurrentLevelIndex / LevelManager.LevelsCount * 2;
+        _strategy = complexity switch
+        {
+            0 => new SimpleAIStrategy(),
+            1 => new MediumAIStrategy(),
+            _ => new HardAIStrategy()
+        };
+
+        _stepTimeScale -= LevelManager.CurrentLevelIndex / 100f;
         SetAttack(LevelManager.CurrentLevelIndex / 10f);
         SetDefence(LevelManager.CurrentLevelIndex / 10f);
         SetSpeed(LevelManager.CurrentLevelIndex / 100f);
@@ -51,6 +60,12 @@ public class AiController : TeamController, IUpdatable
             if (Nodes.Count != 0)
             {
                 SearchTarget();
+                if (_targetNode == null)
+                {
+                    _selectedNodes.Clear();
+                    return;
+                }
+
                 SendUnits(_targetNode);
                 _stepPassTime = 0;
             }
@@ -86,17 +101,7 @@ public class AiController : TeamController, IUpdatable
 
     public override void SearchTarget()
     {
-        var count = Random.Range(1, Nodes.Count + 1);
-        for (var i = 0; i < count; i++)
-        {
-            var node = Nodes[Random.Range(0, Nodes.Count)];
-            if (!ActivateNode(node)) 
-                i--;
-        }
-        
-        var main = _selectedNodes[Random.Range(0, count)];
-        var nearest = FindNearest(main, Random.Range(1, 10));
-        _targetNode = nearest[Random.Range(0, nearest.Count)];
+        _targetNode = _strategy.SearchTarget(this);
     }
 
     public override void DeactivateNode(NodeEntity node)
@@ -110,18 +115,5 @@ public class AiController : TeamController, IUpdatable
     public override void DeactivateNodes()
     {
         _selectedNodes.Clear();
-    }
-
-    private List<NodeEntity> FindNearest(NodeEntity main, float radius)
-    {
-        var cs = Physics2D.OverlapCircleAll(main.CurrentPosition, radius).ToList();
-        var nearest = new List<NodeEntity>();
-        foreach (var c in cs)
-        {
-            if (c.TryGetComponent<NodeView>(out var n))
-                nearest.Add(n.NodeEntity);
-        }
-
-        return nearest;
     }
 }

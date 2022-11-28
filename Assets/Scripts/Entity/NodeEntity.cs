@@ -119,7 +119,7 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
 
     public void SendUnits(NodeEntity target, float attack, float speed)
     {
-        var unitsToSend = UnitCount - UnitCount / 2;
+        var unitsToSend = UnitCount / 2;
         var basePos = _nodeView.transform.position;
         var units = new List<UnitData>();
         for (var i = 0; i < unitsToSend; i++)

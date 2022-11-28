@@ -23,9 +23,6 @@ public class MatchCompletionPopup : Popup
         WorldManager.CurrentWorld.GetSystem<UpdateSystem>()?.SetPause(true);
         WorldManager.CurrentWorld.GetSystem<UnitSystem>()?.SetPause(true);
 
-        if (param.IsWin && LevelManager.CurrentLevelIndex == LevelManager.PassedLevelsCount)
-            LevelManager.PassedLevelsCount++;
-
         _nextButton.gameObject.SetActive(!LevelManager.IsNetwork && param.IsWin &&
             LevelManager.CurrentLevelIndex != LevelManager.LevelsCount - 1);
         
