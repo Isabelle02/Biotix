@@ -393,7 +393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4122882769793287243}
   - component: {fileID: 6963922684168975952}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,7 +472,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.10062981
+        value: 0.069761276
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -484,7 +484,7 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 1}
+      key0: {r: 0.7372549, g: 0.7372549, b: 0.7372549, a: 0}
       key1: {r: 0.74509805, g: 0.74509805, b: 0.74509805, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}

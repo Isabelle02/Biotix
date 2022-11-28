@@ -32,8 +32,9 @@ public class SoundManager : MonoBehaviour
         return SoundClipConfig.GetClip(sound).length;
     }
 
-    public static void Play(Sound sound)
+    public static void Play(Sound sound, bool loop)
     {
+        _instance._audioSource.loop = loop;
         _instance._audioSource.clip = SoundClipConfig.GetClip(sound);
         _instance._audioSource.Play();
     }

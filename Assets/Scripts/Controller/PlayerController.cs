@@ -106,7 +106,7 @@ public class PlayerController : TeamController, IUpdatable
         foreach (var n in _selectedNodes)
         {
             n.SetLineActive(true);
-            n.SetLineEndPosition(MouseManager.GetMousePosition(0));
+            n.SetLineEndPosition(MouseManager.GetMousePosition(90));
         }
     }
 

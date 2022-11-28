@@ -16,7 +16,7 @@ public class SplashWindow : Window
 
     private void OnSceneLoaded()
     {
-        SoundManager.Play(Sound.Space);
+        SoundManager.Play(Sound.Space, true);
         WindowManager.Open<MainMenuWindow>();
     }
 
