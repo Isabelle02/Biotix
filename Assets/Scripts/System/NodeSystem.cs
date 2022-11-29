@@ -90,15 +90,16 @@ public class NodeSystem : BaseSystem<NodeEntity>
             var nc = TeamManager.TeamControllers.Find(nc => nc.Nodes.Contains(node));
             var armyForce = nc.Defence * node.UnitCount - unit.Attack;
             var unitCount = Mathf.RoundToInt(armyForce / nc.Defence);
-            
+
             if (unitCount == 0)
                 node.TeamId = 0;
             else if (unitCount < 0)
                 node.TeamId = unit.TeamId;
+
+            if (unitCount <= 0)
+                UpdateNodes(node);
             
             node.UnitCount = Math.Abs(unitCount);
-            
-            UpdateNodes(node);
         }
     }
 

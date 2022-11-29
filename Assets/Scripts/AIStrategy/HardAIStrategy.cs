@@ -24,8 +24,12 @@ public class HardAIStrategy : AIStrategy
             armyCount += node.UnitCount / 2;
         }
         
+        if (selectedNodes.Count == 0)
+            return null;
+        
         var main = selectedNodes[Random.Range(0, selectedNodes.Count)];
         var nearest = FindInRadius(main, Random.Range(1, 20));
-        return nearest.Find(node => node.UnitCount <= 0.5f * armyCount);
+
+        return nearest.Count == 0 ? null : nearest.Find(node => node.UnitCount <= 0.5f * armyCount);
     }
 }

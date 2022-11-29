@@ -34,6 +34,7 @@ public class NetworkGameplayWindow : Window
         WorldManager.CurrentWorld.Deactivate();
         updateSystem.ClearUpdatables();
 
+        LevelManager.TeamId = 1;
         LevelManager.IsNetwork = false;
     }
 }

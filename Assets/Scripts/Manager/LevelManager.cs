@@ -121,8 +121,8 @@ public class LevelManager : MonoBehaviour
 
         FundsManager.MakeTransaction(reward);
 
-        if (LevelManager.CurrentLevelIndex == LevelManager.PassedLevelsCount)
-            LevelManager.PassedLevelsCount++;
+        if (CurrentLevelIndex == PassedLevelsCount)
+            PassedLevelsCount++;
     }
 
     public static void CompleteNetworkLevel(bool isWin)

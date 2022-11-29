@@ -141,9 +141,6 @@ public class PlayerController : TeamController, IUpdatable
 
     public void Update(float delta)
     {
-        /*if (LevelManager.IsNetwork && (NetworkPlayerController == null || !NetworkPlayerController.photonView.IsMine))
-            return;*/
-        
         if (LevelManager.TeamId != TeamId)
             return;
 

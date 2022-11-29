@@ -141,7 +141,7 @@ public class NodeEntity : BaseEntity<NodeData>, IUpdatable
 
     public void SendUnits(List<UnitData> units, int targetId)
     {
-        UnitCount /= 2;
+        UnitCount -= UnitCount / 2;
         
         foreach (var u in units)
         {
