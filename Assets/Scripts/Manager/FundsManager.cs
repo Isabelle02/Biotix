@@ -39,12 +39,12 @@ public static class FundsManager
             return reward;
 
         if (isFirstWin)
-            reward = Math.Clamp(levelNum * 100 / levelCompletionTime, 10 * levelNum, 100 * levelNum);
+            reward = Math.Clamp(levelNum * 10000 / levelCompletionTime, 10 * levelNum, 10000 * levelNum);
         else
-            reward = 3 * levelNum;
+            reward = 10 * levelNum;
         
         if (isNewBestTime)
-            reward += (int) (reward * 0.05f);
+            reward += (int) (reward * 0.2f);
 
         return reward;
     }
@@ -55,7 +55,7 @@ public static class FundsManager
         if (!isWin) 
             return reward;
 
-        reward = Math.Clamp(playerCount * 100 / levelCompletionTime, 10 * playerCount, 100 * playerCount);
+        reward = Math.Clamp(playerCount * 10000 / levelCompletionTime, 10 * playerCount, 10000 * playerCount);
 
         return reward;
     }
